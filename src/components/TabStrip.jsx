@@ -37,7 +37,7 @@ export default function TabStrip({ onNewTab }) {
   };
 
   return (
-    <div className="flex h-9 shrink-0 items-stretch gap-0.5 overflow-x-auto border-b border-[#1e1e1e] bg-[#121212] px-1">
+    <div className="flex h-9 shrink-0 items-stretch gap-0.5 overflow-x-auto whitespace-nowrap border-b border-[#1e1e1e] bg-[#121212] px-1">
       {tabs.map((tab) => {
         const active = tab.id === activeTabId;
 
