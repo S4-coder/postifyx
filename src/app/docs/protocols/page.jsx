@@ -2,7 +2,7 @@ import { DataTable, P, Section } from '@/components/docs/DocWidgets';
 import { PROTOCOLS } from '@/lib/protocols';
 
 export const metadata = {
-  title: 'Protocols — OpenClient Docs',
+  title: 'Protocols — PostifyX Docs',
   description: 'REST, GraphQL, WebSocket, SSE and gRPC — how each works in the browser tab and the desktop app.',
 };
 

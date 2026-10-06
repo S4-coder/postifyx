@@ -1,4 +1,4 @@
-# OpenClient
+# PostifyX
 
 A local-first, zero-telemetry API client built as a Tauri 2 desktop app with a
 Next.js static-export frontend. Requests are issued from a Rust native socket, so

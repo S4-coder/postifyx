@@ -1,7 +1,7 @@
 import { DataTable, P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Testing REST — OpenClient Docs',
+  title: 'Testing REST — PostifyX Docs',
   description: 'Nine REST checks with expected results, using public key-free endpoints.',
 };
 

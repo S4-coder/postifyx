@@ -1,13 +1,13 @@
 import SiteShell from '@/components/SiteShell';
 
 export const metadata = {
-  title: 'Terms — OpenClient',
-  description: 'OpenClient is MIT licensed open-source software. Terms of use and licence text.',
+  title: 'Terms — PostifyX',
+  description: 'PostifyX is MIT licensed open-source software. Terms of use and licence text.',
 };
 
 const LICENSE = `MIT License
 
-Copyright (c) 2026 The OpenClient Contributors
+Copyright (c) 2026 The PostifyX Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,11 +42,11 @@ const TERMS = [
   },
   {
     title: 'Licence',
-    body: 'OpenClient is MIT licensed. You may use, modify, copy and redistribute it, including commercially, provided the copyright notice and licence text travel with the source.',
+    body: 'PostifyX is MIT licensed. You may use, modify, copy and redistribute it, including commercially, provided the copyright notice and licence text travel with the source.',
   },
   {
     title: 'No affiliation',
-    body: 'OpenClient is an independent project and is not affiliated with, endorsed by, or sponsored by Postman, Inc. or any other API client vendor.',
+    body: 'PostifyX is an independent project and is not affiliated with, endorsed by, or sponsored by Postman, Inc. or any other API client vendor.',
   },
 ];
 

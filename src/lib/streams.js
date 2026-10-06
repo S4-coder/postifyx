@@ -239,7 +239,7 @@ export async function callGrpc(config) {
       grpcMessage: '',
       elapsedMs: 0,
       error:
-        'gRPC requires the OpenClient desktop app. Launch it from the Downloads page, ' +
+        'gRPC requires the PostifyX desktop app. Launch it from the Downloads page, ' +
         'or use REST/GraphQL/WebSocket/SSE in the browser.',
     };
   }

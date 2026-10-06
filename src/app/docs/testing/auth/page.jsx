@@ -1,7 +1,7 @@
 import { DataTable, P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Testing authentication — OpenClient Docs',
+  title: 'Testing authentication — PostifyX Docs',
   description: 'Verify Bearer and Basic auth against httpbin.org.',
 };
 

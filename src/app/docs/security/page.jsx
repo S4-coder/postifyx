@@ -1,7 +1,7 @@
 import { P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Security model — OpenClient Docs',
+  title: 'Security model — PostifyX Docs',
   description: 'Zero telemetry, fragment-only share links, and relay risks.',
 };
 
@@ -11,7 +11,7 @@ export default function SecurityPage() {
       <h1 className="text-2xl font-bold tracking-tight text-slate-100">
         Security model
       </h1>
-      <Section title="How OpenClient protects you">
+      <Section title="How PostifyX protects you">
         <ul className="list-disc space-y-1.5 pl-5 text-[13px] leading-relaxed text-slate-400">
           <li><strong className="text-slate-200">Zero telemetry, zero accounts, zero cloud.</strong> Nothing leaves the machine except the requests you explicitly send.</li>
           <li><strong className="text-slate-200">Share links are fragment-only.</strong> The payload rides in the URL fragment (never transmitted to a server) and secret headers are redacted before encoding. Anyone you paste the link to can reconstruct the request, so treat it as sensitive.</li>

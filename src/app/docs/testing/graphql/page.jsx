@@ -2,7 +2,7 @@ import DocCodeBlock from '@/components/docs/DocCodeBlock';
 import { P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Testing GraphQL — OpenClient Docs',
+  title: 'Testing GraphQL — PostifyX Docs',
   description: 'Test GraphQL queries against a public, key-free endpoint.',
 };
 

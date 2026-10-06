@@ -12,7 +12,7 @@ import { DEFAULT_BODY_FORMAT, contentTypeFor } from '@/lib/bodyFormats';
  */
 const defaultHeaders = () => [
   { key: 'Accept', value: 'application/json', enabled: true },
-  { key: 'User-Agent', value: 'OpenClient/0.1.0', enabled: false },
+  { key: 'User-Agent', value: 'PostifyX/0.1.0', enabled: false },
   { key: 'Content-Type', value: 'application/json', enabled: true },
 ];
 
@@ -689,7 +689,7 @@ export const useRequestStore = create(
         set((state) => ({ collections: state.collections.filter((c) => c.id !== collectionId) })),
     }),
     {
-      name: 'openclient.workspace.v1',
+      name: 'PostifyX.workspace.v1',
       // Persist config only. Response bodies, history and stream frames are
       // excluded: they can be large, and keeping them out of localStorage
       // protects both the memory budget and the 50 MB ceiling.

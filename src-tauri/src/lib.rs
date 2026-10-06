@@ -1,4 +1,4 @@
-//! OpenClient native core.
+//! PostifyX native core.
 //!
 //! Four protocol engines live here:
 //!
@@ -55,9 +55,9 @@ struct AppInfo {
 #[tauri::command]
 fn app_info() -> AppInfo {
     AppInfo {
-        name: "OpenClient",
+        name: "PostifyX",
         version: env!("CARGO_PKG_VERSION"),
-        user_agent: concat!("OpenClient/", env!("CARGO_PKG_VERSION")),
+        user_agent: concat!("PostifyX/", env!("CARGO_PKG_VERSION")),
         max_body_bytes: http::MAX_BODY_BYTES,
         max_message_bytes: grpc::MAX_MESSAGE_BYTES,
         timeout_seconds: network::REQUEST_TIMEOUT.as_secs(),
@@ -140,5 +140,5 @@ pub fn run() {
             grpc_describe_services,
         ])
         .run(tauri::generate_context!())
-        .expect("error while running OpenClient");
+        .expect("error while running PostifyX");
 }

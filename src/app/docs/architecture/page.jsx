@@ -2,8 +2,8 @@ import DocCodeBlock from '@/components/docs/DocCodeBlock';
 import { DataTable, P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Architecture — OpenClient Docs',
-  description: 'The two layers of OpenClient and why each technology is used.',
+  title: 'Architecture — PostifyX Docs',
+  description: 'The two layers of PostifyX and why each technology is used.',
 };
 
 const DIAGRAM = `┌──────────────────────────────────────────────┐

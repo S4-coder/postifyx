@@ -290,7 +290,7 @@ export default function WorkspacePage() {
         <div className="flex flex-col items-center gap-4">
           <span
             className="flex h-7 w-7 items-center justify-center rounded-md border border-emerald-500/30 bg-emerald-500/15 text-emerald-400"
-            title="OpenClient"
+            title="PostifyX"
           >
             <Zap size={14} />
           </span>
@@ -343,7 +343,7 @@ export default function WorkspacePage() {
           initial={300}
           min={140}
           max={1400}
-          storageKey="openclient.layout.response"
+          storageKey="PostifyX.layout.response"
           className="shrink-0"
           paneClassName="border-t border-[#1e1e1e]"
         >

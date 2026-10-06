@@ -4,11 +4,11 @@ import SiteShell from '@/components/SiteShell';
 import { PROTOCOLS } from '@/lib/protocols';
 
 const BENCHMARKS = [
-  { metric: 'Cold start to first request', openclient: '0.42 s', postman: '4.10 s', ratio: '~10x faster' },
-  { metric: 'Idle memory footprint', openclient: '38 MB', postman: '410 MB', ratio: '~11x smaller' },
-  { metric: 'Installed size', openclient: '12 MB', postman: '185 MB', ratio: '~15x smaller' },
-  { metric: 'Startup network calls', openclient: '0', postman: '6+', ratio: 'No telemetry' },
-  { metric: 'Account required', openclient: 'No', postman: 'Sign-in wall', ratio: 'Local-first' },
+  { metric: 'Cold start to first request', postifyx: '0.42 s', postman: '4.10 s', ratio: '~10x faster' },
+  { metric: 'Idle memory footprint', postifyx: '38 MB', postman: '410 MB', ratio: '~11x smaller' },
+  { metric: 'Installed size', postifyx: '12 MB', postman: '185 MB', ratio: '~15x smaller' },
+  { metric: 'Startup network calls', postifyx: '0', postman: '6+', ratio: 'No telemetry' },
+  { metric: 'Account required', postifyx: 'No', postman: 'Sign-in wall', ratio: 'Local-first' },
 ];
 
 const ACCENTS = {
@@ -20,9 +20,9 @@ const ACCENTS = {
 };
 
 export const metadata = {
-  title: 'OpenClient — a local-first API client with zero telemetry',
+  title: 'PostifyX — a local-first API client with zero telemetry',
   description:
-    'OpenClient is a fast, lightweight, local-first API client for REST, GraphQL, gRPC, WebSocket and SSE. No accounts, no telemetry, no cloud sync.',
+    'PostifyX is a fast, lightweight, local-first API client for REST, GraphQL, gRPC, WebSocket and SSE. No accounts, no telemetry, no cloud sync.',
 };
 
 export default function LandingPage() {
@@ -45,7 +45,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-400">
-            OpenClient is a local-first alternative to Postman. Requests run through a Rust native
+            PostifyX is a local-first alternative to Postman. Requests run through a Rust native
             socket, so CORS never blocks you. No account, no sync, no usage data leaving your disk.
           </p>
 
@@ -55,6 +55,12 @@ export default function LandingPage() {
               className="rounded-md bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500"
             >
               Download for your OS
+            </Link>
+            <Link
+              href="/docs"
+              className="rounded-md bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500"
+            >
+              Documentation
             </Link>
             <Link
               href="/app"
@@ -72,17 +78,17 @@ export default function LandingPage() {
 
       {/* Benchmarks */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="text-2xl font-semibold tracking-tight">OpenClient vs Postman</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">PostifyX vs Postman</h2>
         <p className="mt-2 text-sm text-slate-400">
           Measured on an empty Windows 11 profile, no cache, same 1 MB JSON response.
         </p>
 
-        <div className="mt-6 overflow-hidden rounded-lg border border-[#1e1e1e]">
-          <table className="w-full text-left text-sm">
+        <div className="mt-6 overflow-x-auto rounded-lg border border-[#1e1e1e]">
+          <table className="w-full min-w-[560px] text-left text-sm">
             <thead className="bg-[#1a1a1a] text-xs uppercase tracking-wide text-slate-500">
               <tr>
                 <th className="px-4 py-3 font-medium">Metric</th>
-                <th className="px-4 py-3 font-medium text-emerald-400">OpenClient</th>
+                <th className="px-4 py-3 font-medium text-emerald-400">PostifyX</th>
                 <th className="px-4 py-3 font-medium text-slate-400">Postman</th>
                 <th className="px-4 py-3 font-medium">Difference</th>
               </tr>
@@ -91,7 +97,7 @@ export default function LandingPage() {
               {BENCHMARKS.map((row) => (
                 <tr key={row.metric} className="border-t border-[#1e1e1e]">
                   <td className="px-4 py-3 text-slate-300">{row.metric}</td>
-                  <td className="px-4 py-3 font-mono text-emerald-400">{row.openclient}</td>
+                  <td className="px-4 py-3 font-mono text-emerald-400">{row.postifyx}</td>
                   <td className="px-4 py-3 font-mono text-slate-500">{row.postman}</td>
                   <td className="px-4 py-3 text-slate-400">{row.ratio}</td>
                 </tr>

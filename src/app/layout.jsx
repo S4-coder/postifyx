@@ -1,9 +1,10 @@
+import CursorEffect from '@/components/CursorEffect';
 import './globals.css';
 
 export const metadata = {
-  title: 'OpenClient — Local-first API client',
+  title: 'PostifyX — Local-first API client',
   description:
-    'OpenClient is a zero-telemetry, local-first API client for REST, GraphQL, gRPC, WebSocket and SSE. All data stays on your disk.',
+    'PostifyX is a zero-telemetry, local-first API client for REST, GraphQL, gRPC, WebSocket and SSE. All data stays on your disk.',
 };
 
 export const viewport = {
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
         className="min-h-screen bg-[#0d0d0d] font-sans text-slate-100"
       >
         {children}
+        <CursorEffect />
       </body>
     </html>
   );

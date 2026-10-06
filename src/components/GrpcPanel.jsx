@@ -32,7 +32,7 @@ export default function GrpcPanel() {
         <div className="mb-3 rounded border border-amber-500/40 bg-amber-500/10 p-2.5 text-xs leading-relaxed text-amber-200/90">
           Browsers cannot speak HTTP/2 gRPC: the protocol needs trailers and
           server push that <code className="font-mono">fetch</code> does not expose. Launch the
-          OpenClient desktop app to run this call.
+          PostifyX desktop app to run this call.
         </div>
       )}
 
@@ -51,7 +51,7 @@ export default function GrpcPanel() {
             className="w-full resize-y rounded border border-[#2a2a2a] bg-[#0d0d0d] p-2 font-mono text-[11px] text-slate-200 focus:border-sky-500 focus:outline-none"
           />
           <span className="mt-1 block text-[10px] text-slate-600">
-            OpenClient uses dynamic protobuf reflection, so no generated code or protoc plugin is
+            PostifyX uses dynamic protobuf reflection, so no generated code or protoc plugin is
             needed at build time.
           </span>
         </label>

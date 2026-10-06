@@ -1,7 +1,7 @@
 import { P, Section, StepList } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Testing WebSocket & SSE — OpenClient Docs',
+  title: 'Testing WebSocket & SSE — PostifyX Docs',
   description: 'Verify both streaming protocols against the local demo server.',
 };
 

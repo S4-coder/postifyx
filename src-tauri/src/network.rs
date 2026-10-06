@@ -19,7 +19,7 @@ pub const MAX_TIMEOUT: Duration = Duration::from_secs(600);
 
 fn build(timeout: Duration) -> Result<Client, String> {
     Client::builder()
-        .user_agent(concat!("OpenClient/", env!("CARGO_PKG_VERSION")))
+        .user_agent(concat!("PostifyX/", env!("CARGO_PKG_VERSION")))
         .timeout(timeout)
         .connect_timeout(CONNECT_TIMEOUT)
         .redirect(reqwest::redirect::Policy::limited(10))

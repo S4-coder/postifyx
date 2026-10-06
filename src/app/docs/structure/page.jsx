@@ -2,8 +2,8 @@ import DocCodeBlock from '@/components/docs/DocCodeBlock';
 import { Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Project structure — OpenClient Docs',
-  description: 'What lives where in the OpenClient source tree.',
+  title: 'Project structure — PostifyX Docs',
+  description: 'What lives where in the PostifyX source tree.',
 };
 
 const STRUCTURE = `src/

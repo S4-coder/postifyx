@@ -1,4 +1,4 @@
-# OpenClient — Complete Documentation
+# PostifyX — Complete Documentation
 
 > Local-first, zero-telemetry API client for **REST, GraphQL, WebSocket,
 > SSE and gRPC**. Tauri 2 (Rust) desktop shell + Next.js static-export
@@ -91,7 +91,7 @@ request bar).
 ### 3.2 Workspace (`/app`)
 
 - **Request tabs** — multiple requests side by side; double-click to rename,
-  `+` to add, `×` to close. Persisted (`openclient.workspace.v1`).
+  `+` to add, `×` to close. Persisted (`PostifyX.workspace.v1`).
 - **Headers / Body / Auth** panels:
   - Headers: checkbox enable/disable, key-value rows.
   - Body: 5 formats — JSON (re-indented, validated), HTML, Text,
@@ -105,7 +105,7 @@ request bar).
 - **Right sidebar** — toggled from the request-bar icons: History (real,
   in-memory), Share (live link), Code Snippet (cURL/Fetch/Python/Node.js).
 - **Resizable response pane** — drag the divider (or double-click to
-  reset); height persists in `openclient.layout.response`.
+  reset); height persists in `PostifyX.layout.response`.
 - **Command palette** — `Ctrl/Cmd+K`, with curated public APIs and
   streaming examples.
 - **Collections** — save the current request into a named group; reopen in
@@ -261,7 +261,7 @@ the same request, with secrets as `YOUR_TOKEN`.
 ### 4.12 Layout
 
 - Drag the response divider up/down → height changes; double-click →
-  reset; reload → height restored (`openclient.layout.response`).
+  reset; reload → height restored (`PostifyX.layout.response`).
 
 ---
 
@@ -269,10 +269,10 @@ the same request, with secrets as `YOUR_TOKEN`.
 
 | Key | Where | Meaning |
 | --- | --- | --- |
-| `openclient.workspace.v1` | localStorage | Zustand persist: tabs, active tab, collections, environments |
-| `openclient.layout.response` | localStorage | Response pane height (px) |
-| `openclient.proxy` | localStorage | Override the CORS relay URL for hosted deployments |
-| `NEXT_PUBLIC_OPENCLIENT_PROXY` | env | Same override, build-time |
+| `PostifyX.workspace.v1` | localStorage | Zustand persist: tabs, active tab, collections, environments |
+| `PostifyX.layout.response` | localStorage | Response pane height (px) |
+| `PostifyX.proxy` | localStorage | Override the CORS relay URL for hosted deployments |
+| `NEXT_PUBLIC_PostifyX_PROXY` | env | Same override, build-time |
 | `ALLOW_HOSTS` | env (relay) | Comma-separated host allowlist — **set this if you deploy the relay** |
 
 **Clearing state:** dev tools → Application → Local Storage → delete the
@@ -341,7 +341,7 @@ docs:
 | --- | --- | --- |
 | `Cannot find module './xxx.js'` | Stale `.next` (dev + build shared the folder) | Stop dev server, delete `.next`, restart `npm run dev` |
 | `Turn interrupted` from the AI assistant | Response/stream too long for the assistant's output limit | Split the request into smaller turns |
-| Request fails in browser tab with CORS text | Host sends no `Access-Control-Allow-Origin` | Run `npm run relay` (or set `openclient.proxy`) |
+| Request fails in browser tab with CORS text | Host sends no `Access-Control-Allow-Origin` | Run `npm run relay` (or set `PostifyX.proxy`) |
 | gRPC panel empty in browser | Browsers can't read HTTP/2 trailers | Use the desktop app |
 | SSE custom headers ignored | `EventSource` limitation | Use the desktop app |
 | Hydration warning on load | Persisted state differs from server render | Already handled (`skipHydration` + rehydrate in effect); restart dev server if it repeats |

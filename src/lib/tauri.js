@@ -47,8 +47,8 @@ export function isDesktop() {
  */
 export function getProxyEndpoint() {
   const configured =
-    process.env.NEXT_PUBLIC_OPENCLIENT_PROXY ??
-    (typeof window !== 'undefined' ? window.localStorage?.getItem('openclient.proxy') : null);
+    process.env.NEXT_PUBLIC_PostifyX_PROXY ??
+    (typeof window !== 'undefined' ? window.localStorage?.getItem('PostifyX.proxy') : null);
 
   if (configured) return String(configured).replace(/\/$/, '');
 
@@ -65,8 +65,8 @@ export function getProxyEndpoint() {
 /** Persists a relay override so a hosted deployment can point at its own. */
 export function setProxyEndpoint(url) {
   try {
-    if (url) window.localStorage.setItem('openclient.proxy', url);
-    else window.localStorage.removeItem('openclient.proxy');
+    if (url) window.localStorage.setItem('PostifyX.proxy', url);
+    else window.localStorage.removeItem('PostifyX.proxy');
   } catch {
     /* storage unavailable: fall back to the default endpoint */
   }
@@ -85,7 +85,7 @@ const emptyResponse = (error, timeMs = 0) => ({
 
 const isAbort = (err) => err?.name === 'AbortError';
 
-/** Normalises a `Response` into the OpenClient response shape. */
+/** Normalises a `Response` into the PostifyX response shape. */
 async function toHttpResponse(res, started) {
   const body = await res.text();
   const headers = {};
@@ -177,7 +177,7 @@ async function sendViaProxy(req, timeoutMs) {
   if (!endpoint) {
     return emptyResponse(
       'Blocked by CORS and no relay is configured. Run `node server/proxy.mjs` and reload, ' +
-        'or set window.localStorage["openclient.proxy"] to a relay URL. ' +
+        'or set window.localStorage["PostifyX.proxy"] to a relay URL. ' +
         'The desktop app has no CORS restriction at all.',
     );
   }
@@ -273,9 +273,9 @@ export async function sendRequest(req) {
  */
 export async function getAppInfo() {
   const fallback = {
-    name: 'OpenClient',
+    name: 'PostifyX',
     version: '0.1.0',
-    userAgent: 'OpenClient/0.1.0',
+    userAgent: 'PostifyX/0.1.0',
     maxBodyBytes: 8 * 1024 * 1024,
     timeoutSeconds: 60,
     transport: isDesktop() ? 'rust-native' : 'browser-relay',

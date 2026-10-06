@@ -180,7 +180,7 @@ fn truncate_utf8(input: &str, max_bytes: usize) -> String {
     }
 
     format!(
-        "{}\n\n[OpenClient] Response truncated at {max_bytes} bytes.",
+        "{}\n\n[PostifyX] Response truncated at {max_bytes} bytes.",
         &input[..end]
     )
 }

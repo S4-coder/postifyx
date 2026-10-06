@@ -1,6 +1,6 @@
-# Contributing to OpenClient
+# Contributing to PostifyX
 
-Thanks for wanting to help. OpenClient is local-first and
+Thanks for wanting to help. PostifyX is local-first and
 zero-telemetry by design, so the bar for any contribution is that
 it must not phone home, and must not weaken that property.
 

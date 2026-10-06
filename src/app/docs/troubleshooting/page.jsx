@@ -1,8 +1,8 @@
 import { DataTable, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Troubleshooting — OpenClient Docs',
-  description: 'Common OpenClient symptoms, causes and fixes.',
+  title: 'Troubleshooting — PostifyX Docs',
+  description: 'Common PostifyX symptoms, causes and fixes.',
 };
 
 export default function TroubleshootingPage() {
@@ -16,7 +16,7 @@ export default function TroubleshootingPage() {
           columns={['Symptom', 'Cause', 'Fix']}
           rows={[
             ['Cannot find module "./xxx.js"', 'Stale .next — dev and build shared the folder', 'Stop the dev server, delete .next, restart npm run dev'],
-            ['Request fails in a browser tab with CORS text', 'Host sends no Access-Control-Allow-Origin', 'Run npm run relay, or set openclient.proxy'],
+            ['Request fails in a browser tab with CORS text', 'Host sends no Access-Control-Allow-Origin', 'Run npm run relay, or set PostifyX.proxy'],
             ['gRPC panel is empty in the browser', 'Browsers cannot read HTTP/2 trailers', 'Use the desktop app'],
             ['SSE custom headers are ignored', 'EventSource limitation', 'Use the desktop app'],
             ['Hydration warning on load', 'Persisted state differs from the server render', 'Handled by design (skipHydration + rehydrate in an effect); restart the dev server if it repeats'],

@@ -1,6 +1,6 @@
 //! gRPC transport via dynamic protobuf reflection.
 //!
-//! Most gRPC clients need `protoc` and generated code. OpenClient does not: it
+//! Most gRPC clients need `protoc` and generated code. PostifyX does not: it
 //! accepts a base64 `FileDescriptorSet` plus a JSON message, and
 //! `prost-reflect` resolves the method and message shapes at runtime. A
 //! `.proto` file is the only build input the user needs.

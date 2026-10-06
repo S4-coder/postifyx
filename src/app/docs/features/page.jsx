@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Features — OpenClient Docs',
-  description: 'Every OpenClient workspace feature, listed and explained.',
+  title: 'Features — PostifyX Docs',
+  description: 'Every PostifyX workspace feature, listed and explained.',
 };
 
 export default function FeaturesPage() {

@@ -2,8 +2,8 @@ import DocCodeBlock from '@/components/docs/DocCodeBlock';
 import { P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Quick start — OpenClient Docs',
-  description: 'Install and run OpenClient: prerequisites, commands, and where the workspace lives.',
+  title: 'Quick start — PostifyX Docs',
+  description: 'Install and run PostifyX: prerequisites, commands, and where the workspace lives.',
 };
 
 const QUICK_START = `# 1. Install dependencies

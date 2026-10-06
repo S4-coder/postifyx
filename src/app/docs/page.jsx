@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Overview — OpenClient Docs',
+  title: 'Overview — PostifyX Docs',
   description:
-    'OpenClient is a local-first, zero-telemetry API client for REST, GraphQL, WebSocket, SSE and gRPC.',
+    'PostifyX is a local-first, zero-telemetry API client for REST, GraphQL, WebSocket, SSE and gRPC.',
 };
 
 const GUIDE_INDEX = [
@@ -28,7 +28,7 @@ export default function DocsOverviewPage() {
           v0.1.0 · MIT · Local-first
         </p>
         <h1 className="text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
-          OpenClient Documentation
+          PostifyX Documentation
         </h1>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-slate-400">
           A local-first, zero-telemetry API client for REST, GraphQL,
@@ -40,7 +40,7 @@ export default function DocsOverviewPage() {
 
       <Section title="Overview">
         <P>
-          OpenClient is an alternative to Postman with one rule:{' '}
+          PostifyX is an alternative to Postman with one rule:{' '}
           <strong className="text-slate-200">nothing leaves your machine</strong>.
           There is no account, no cloud sync, and no telemetry. Requests
           run from a Rust native socket in the desktop app, so browser

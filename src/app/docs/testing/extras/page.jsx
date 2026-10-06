@@ -1,7 +1,7 @@
 import { P, Section, StepList } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Testing snippets, share & history — OpenClient Docs',
+  title: 'Testing snippets, share & history — PostifyX Docs',
   description: 'Verify code snippets, share links, history and layout persistence.',
 };
 

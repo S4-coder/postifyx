@@ -1,7 +1,7 @@
 import { P, Section, StepList } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Testing environments — OpenClient Docs',
+  title: 'Testing environments — PostifyX Docs',
   description: 'Verify {{placeholder}} interpolation with environments.',
 };
 

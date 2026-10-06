@@ -1,6 +1,6 @@
 # Code of Conduct
 
-OpenClient is a community project, and we expect everyone
+PostifyX is a community project, and we expect everyone
 participating in it — contributors, maintainers, and users in
 issues or discussions — to act respectfully.
 

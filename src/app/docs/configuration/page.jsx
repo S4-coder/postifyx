@@ -1,8 +1,8 @@
 import { DataTable, P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Configuration — OpenClient Docs',
-  description: 'OpenClient storage keys and environment variables.',
+  title: 'Configuration — PostifyX Docs',
+  description: 'PostifyX storage keys and environment variables.',
 };
 
 export default function ConfigurationPage() {
@@ -15,10 +15,10 @@ export default function ConfigurationPage() {
         <DataTable
           columns={['Key', 'Where', 'Meaning']}
           rows={[
-            ['openclient.workspace.v1', 'localStorage', 'Zustand persist: tabs, active tab, collections, environments'],
-            ['openclient.layout.response', 'localStorage', 'Response pane height in pixels'],
-            ['openclient.proxy', 'localStorage', 'Override the CORS relay URL (hosted deployments)'],
-            ['NEXT_PUBLIC_OPENCLIENT_PROXY', 'environment', 'Same override, at build time'],
+            ['PostifyX.workspace.v1', 'localStorage', 'Zustand persist: tabs, active tab, collections, environments'],
+            ['PostifyX.layout.response', 'localStorage', 'Response pane height in pixels'],
+            ['PostifyX.proxy', 'localStorage', 'Override the CORS relay URL (hosted deployments)'],
+            ['NEXT_PUBLIC_PostifyX_PROXY', 'environment', 'Same override, at build time'],
             ['ALLOW_HOSTS', 'relay environment', 'Comma-separated host allowlist — set this if you deploy the relay'],
           ]}
         />

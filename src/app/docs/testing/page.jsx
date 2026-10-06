@@ -3,8 +3,8 @@ import DocCodeBlock from '@/components/docs/DocCodeBlock';
 import { P, Section, Subsection } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Testing guide — OpenClient Docs',
-  description: 'Verify every OpenClient feature with public, key-free endpoints.',
+  title: 'Testing guide — PostifyX Docs',
+  description: 'Verify every PostifyX feature with public, key-free endpoints.',
 };
 
 export default function TestingPage() {

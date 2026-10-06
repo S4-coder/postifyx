@@ -1,16 +1,16 @@
 import SiteShell from '@/components/SiteShell';
 
 export const metadata = {
-  title: 'Privacy — OpenClient',
+  title: 'Privacy — PostifyX',
   description:
-    'OpenClient collects nothing. Requests, tokens, environments and history stay in local storage on your own disk.',
+    'PostifyX collects nothing. Requests, tokens, environments and history stay in local storage on your own disk.',
 };
 
 const SECTIONS = [
   {
     title: 'Zero cloud data collection',
     body: [
-      'OpenClient runs on a local-first architecture. There is no account system, no analytics service, and no usage database. Requests, tokens, parameters, environments and response logs live in your browser/WebView local storage on the machine you installed the app on.',
+      'PostifyX runs on a local-first architecture. There is no account system, no analytics service, and no usage database. Requests, tokens, parameters, environments and response logs live in your browser/WebView local storage on the machine you installed the app on.',
       'We cannot see your data because it is never transmitted to us. There is no endpoint that receives it.',
     ],
   },
@@ -24,7 +24,7 @@ const SECTIONS = [
   {
     title: 'Where your data is stored',
     body: [
-      'Workspace configuration — URL, method, headers, body, auth settings and environment variables — is stored as JSON in WebView local storage. It is scoped to the app and is not written to any OpenClient server.',
+      'Workspace configuration — URL, method, headers, body, auth settings and environment variables — is stored as JSON in WebView local storage. It is scoped to the app and is not written to any PostifyX server.',
       'Request history is held in memory only and is deliberately excluded from persistence, so it disappears when the window closes.',
     ],
   },
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
 
         <div className="mt-2 rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-5">
           <p className="text-sm leading-relaxed text-emerald-200/90">
-            <strong>All data stays local on your disk.</strong> OpenClient has no servers, no
+            <strong>All data stays local on your disk.</strong> PostifyX has no servers, no
             accounts, and no telemetry. There is nothing to opt out of because nothing is collected.
           </p>
         </div>

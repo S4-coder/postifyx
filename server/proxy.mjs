@@ -1,5 +1,5 @@
 /**
- * OpenClient relay — the browser-mode counterpart to the Rust network engine.
+ * PostifyX relay — the browser-mode counterpart to the Rust network engine.
  *
  * The desktop app talks to `execute_rest_request` over Tauri IPC, which has no
  * CORS restriction. A browser tab does, so requests made from the web build are
@@ -127,7 +127,7 @@ const server = createServer(async (req, res) => {
   }
 
   if (req.method !== 'POST' || !req.url?.startsWith('/')) {
-    sendJson(res, 404, errorShape('OpenClient relay: POST a request payload to this origin.'));
+    sendJson(res, 404, errorShape('PostifyX relay: POST a request payload to this origin.'));
     return;
   }
 
@@ -209,7 +209,7 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`OpenClient relay listening on http://${HOST}:${PORT}`);
+  console.log(`PostifyX relay listening on http://${HOST}:${PORT}`);
   console.log(
     ALLOW_HOSTS.length
       ? `Allowlist active: ${ALLOW_HOSTS.join(', ')}`

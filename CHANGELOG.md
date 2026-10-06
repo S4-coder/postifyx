@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to OpenClient are documented in this file.
+All notable changes to PostifyX are documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).

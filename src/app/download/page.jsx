@@ -10,36 +10,36 @@ const RELEASES = {
     label: 'Windows',
     requirements: 'Windows 10 or later, 64-bit',
     primary: {
-      name: 'OpenClient-0.1.0-x64-setup.exe',
-      href: 'https://github.com/openclient/openclient/releases/download/v0.1.0/OpenClient_0.1.0_x64-setup.exe',
+      name: 'PostifyX-0.1.0-x64-setup.exe',
+      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_x64-setup.exe',
     },
     secondary: {
-      name: 'OpenClient-0.1.0-x64-setup.msi',
-      href: 'https://github.com/openclient/openclient/releases/download/v0.1.0/OpenClient_0.1.0_amd64_en-US.msi',
+      name: 'PostifyX-0.1.0-x64-setup.msi',
+      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_amd64_en-US.msi',
     },
   },
   macos: {
     label: 'macOS',
     requirements: 'macOS 11 (Big Sur) or later, Intel and Apple Silicon',
     primary: {
-      name: 'OpenClient-0.1.0.dmg',
-      href: 'https://github.com/openclient/openclient/releases/download/v0.1.0/OpenClient_0.1.0_universal.dmg',
+      name: 'PostifyX-0.1.0.dmg',
+      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_universal.dmg',
     },
     secondary: {
-      name: 'OpenClient-0.1.0-arm64.dmg',
-      href: 'https://github.com/openclient/openclient/releases/download/v0.1.0/OpenClient_0.1.0_aarch64.dmg',
+      name: 'PostifyX-0.1.0-arm64.dmg',
+      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_aarch64.dmg',
     },
   },
   linux: {
     label: 'Linux',
     requirements: 'glibc 2.31 or later, x64',
     primary: {
-      name: 'openclient_0.1.0_amd64.AppImage',
-      href: 'https://github.com/openclient/openclient/releases/download/v0.1.0/openclient_0.1.0_amd64.AppImage',
+      name: 'PostifyX_0.1.0_amd64.AppImage',
+      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_amd64.AppImage',
     },
     secondary: {
-      name: 'openclient_0.1.0_amd64.deb',
-      href: 'https://github.com/openclient/openclient/releases/download/v0.1.0/openclient_0.1.0_amd64.deb',
+      name: 'PostifyX_0.1.0_amd64.deb',
+      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_amd64.deb',
     },
   },
 };
@@ -69,7 +69,7 @@ export default function DownloadPage() {
   return (
     <SiteShell>
       <div className="mx-auto max-w-4xl px-6 py-16">
-        <h1 className="text-3xl font-semibold tracking-tight">Download OpenClient</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Download PostifyX</h1>
 
         {checked && detected ? (
           <div className="mt-6 rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-6">
@@ -86,7 +86,7 @@ export default function DownloadPage() {
           </div>
         ) : (
           <p className="mt-4 text-sm text-slate-400">
-            Choose your platform below. OpenClient ships as a single binary with no runtime install.
+            Choose your platform below. PostifyX ships as a single binary with no runtime install.
           </p>
         )}
 

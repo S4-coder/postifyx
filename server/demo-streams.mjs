@@ -1,8 +1,8 @@
 /**
- * Demo stream endpoints for OpenClient's WebSocket and SSE transports.
+ * Demo stream endpoints for PostifyX's WebSocket and SSE transports.
  *
  * The public test services for these protocols are frequently rate-limited or
- * offline, which makes it impossible to tell whether a failure is in OpenClient
+ * offline, which makes it impossible to tell whether a failure is in PostifyX
  * or in the remote service. This server provides deterministic local targets so
  * the transports can be verified on demand.
  *
@@ -167,7 +167,7 @@ server.on('upgrade', (req, socket) => {
   socket.setNoDelay(true);
   sockets.add(socket);
 
-  socket.write(encodeFrame(OPCODE.TEXT, 'OpenClient echo server connected'));
+  socket.write(encodeFrame(OPCODE.TEXT, 'PostifyX echo server connected'));
 
   let buffer = Buffer.alloc(0);
 
@@ -194,7 +194,7 @@ server.on('upgrade', (req, socket) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`OpenClient demo streams on http://${HOST}:${PORT}`);
+  console.log(`PostifyX demo streams on http://${HOST}:${PORT}`);
   console.log(`  WebSocket : ws://${HOST}:${PORT}/ws`);
   console.log(`  SSE       : http://${HOST}:${PORT}/sse`);
 });

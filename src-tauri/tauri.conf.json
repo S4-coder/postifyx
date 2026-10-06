@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "OpenClient",
+  "productName": "PostifyX",
   "version": "0.1.0",
-  "identifier": "dev.openclient.desktop",
+  "identifier": "dev.PostifyX.desktop",
   "build": {
     "frontendDist": "../out",
     "devUrl": "http://localhost:3000",
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "OpenClient",
+        "title": "PostifyX",
         "width": 1280,
         "height": 820,
         "minWidth": 900,
@@ -38,7 +38,7 @@
     ],
     "category": "DeveloperTool",
     "shortDescription": "Local-first API client",
-    "longDescription": "OpenClient is a zero-telemetry, local-first API client supporting REST, GraphQL, gRPC, WebSocket and SSE.",
+    "longDescription": "PostifyX is a zero-telemetry, local-first API client supporting REST, GraphQL, gRPC, WebSocket and SSE.",
     "linux": {
       "deb": {
         "depends": ["libwebkit2gtk-4.1-0", "libgtk-3-0"]

@@ -8,7 +8,7 @@
  * the workspace bundle.
  */
 
-export const PENDING_REQUEST_KEY = 'openclient.pendingRequest';
+export const PENDING_REQUEST_KEY = 'PostifyX.pendingRequest';
 
 /**
  * Stages a request for the workspace to pick up on mount.

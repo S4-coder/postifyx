@@ -2,14 +2,14 @@ import DocCodeBlock from '@/components/docs/DocCodeBlock';
 import { P, Section } from '@/components/docs/DocWidgets';
 
 export const metadata = {
-  title: 'Testing gRPC — OpenClient Docs',
+  title: 'Testing gRPC — PostifyX Docs',
   description: 'Set up a gRPC descriptor set and call a service with dynamic reflection.',
 };
 
 const GRPC_SETUP = `# 1. Write your proto file (api.proto)
 
 # 2. Compile to a descriptor set — no codegen needed,
-#    OpenClient reflects the messages dynamically
+#    PostifyX reflects the messages dynamically
 protoc --descriptor_set_out=api.bin api.proto
 
 # 3. Base64-encode it
@@ -28,7 +28,7 @@ export default function TestingGrpcPage() {
       </h1>
       <Section title="Desktop app only">
         <P>
-          OpenClient uses dynamic protobuf reflection, so
+          PostifyX uses dynamic protobuf reflection, so
           there is no codegen step — you compile a descriptor set once and
           paste it in.
         </P>

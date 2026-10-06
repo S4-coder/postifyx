@@ -2,7 +2,7 @@
  * Curated public APIs for the /apis directory.
  *
  * Every entry was checked against its live response before being added here. If
- * one starts failing, that is a service-side change, not a bug in OpenClient —
+ * one starts failing, that is a service-side change, not a bug in PostifyX —
  * but please re-verify before adding new entries, because a "Run in App" that
  * returns a deprecation notice is worse than no entry at all.
  */
