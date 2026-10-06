@@ -72,18 +72,14 @@ export default function DownloadPage() {
         <h1 className="text-3xl font-semibold tracking-tight">Download PostifyX</h1>
 
         {checked && detected ? (
-          <div className="mt-6 rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-6">
-            <p className="text-xs uppercase tracking-wide text-emerald-300">
-              Detected {detected.label}
+          <div className="mt-6 rounded-lg border border-amber-500/40 bg-amber-500/10 p-6">
+            <p className="text-xs uppercase tracking-wide text-amber-300">
+              File not found
             </p>
-            <p className="mt-1 text-sm text-slate-400">{detected.requirements}</p>
-            <a
-              href={detected.primary.href}
-              download
-              className="mt-4 inline-block rounded-md bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500"
-            >
-              Download for {detected.label}
-            </a>
+            <p className="mt-1 text-sm text-slate-400">
+              The {detected.label} installer is not yet published. A tagged release must be
+              created on GitHub before this download works.
+            </p>
           </div>
         ) : (
           <p className="mt-4 text-sm text-slate-400">
@@ -110,20 +106,18 @@ export default function DownloadPage() {
               <p className="mt-1 text-xs text-slate-500">{release.requirements}</p>
 
               <div className="mt-4 space-y-2">
-                <a
-                  href={release.primary.href}
-                  download
-                  className="block rounded-md border border-[#2a2a2a] px-3 py-2 text-center font-mono text-xs text-slate-200 transition hover:border-emerald-500 hover:text-emerald-300"
+                <button
+                  disabled
+                  className="block w-full cursor-not-allowed rounded-md border border-[#2a2a2a] px-3 py-2 text-center font-mono text-xs text-slate-500"
                 >
                   {release.primary.name}
-                </a>
-                <a
-                  href={release.secondary.href}
-                  download
-                  className="block rounded-md border border-[#1e1e1e] px-3 py-2 text-center font-mono text-xs text-slate-400 transition hover:border-[#2a2a2a] hover:text-slate-200"
+                </button>
+                <button
+                  disabled
+                  className="block w-full cursor-not-allowed rounded-md border border-[#1e1e1e] px-3 py-2 text-center font-mono text-xs text-slate-500"
                 >
                   {release.secondary.name}
-                </a>
+                </button>
               </div>
             </section>
           ))}
