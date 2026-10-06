@@ -316,7 +316,7 @@ export default function WorkspacePage() {
           <button
             type="button"
             onClick={openPalette}
-            className="flex w-72 items-center gap-2 rounded border border-[#2a2a2a] bg-[#1a1a1a] px-2.5 py-1 text-slate-500 transition hover:border-[#3a3a3a] hover:text-slate-300"
+            className="flex max-w-[60%] items-center gap-2 rounded border border-[#2a2a2a] bg-[#1a1a1a] px-2.5 py-1 text-slate-500 transition hover:border-[#3a3a3a] hover:text-slate-300"
           >
             <Search size={12} />
             <span className="flex-1 text-left text-[11px]">Search and commands…</span>
@@ -360,7 +360,7 @@ export default function WorkspacePage() {
       </div>
 
       {/* ── Right sidebar ─────────────────────────────────────── */}
-      <aside className="hidden w-60 shrink-0 flex-col border-l border-[#1e1e1e] bg-[#121212] lg:flex">
+      <aside className="hidden w-60 shrink-0 flex-col border-l border-[#1e1e1e] bg-[#121212] md:flex">
         {sidePanel ? (
           <>
             <div className="flex h-10 shrink-0 items-center justify-between gap-1.5 border-b border-[#1e1e1e] px-3">
