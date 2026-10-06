@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 
 const NAV = [
-  { href: '/app', label: 'Workspace' },
   { href: '/apis', label: 'API Directory' },
   { href: '/docs', label: 'Docs' },
   { href: '/download', label: 'Download' },
