@@ -12,11 +12,11 @@ const NAV = [
 ];
 
 /** Shared shell for the marketing pages. Kept out of the desktop workspace. */
-export default function SiteShell({ children }) {
+export default function SiteShell({ children, hideOnMobile = false }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen w-full max-w-full flex-col overflow-x-hidden">
+    <div className={`flex min-h-screen w-full max-w-full flex-col overflow-x-hidden ${hideOnMobile ? 'hidden md:flex' : ''}`}>
       {/* Sticky navbar: follows the page when you scroll. */}
       <header className="sticky top-0 z-40 border-b border-[#1e1e1e] bg-[#0d0d0d]/90 backdrop-blur">
         <div className="relative mx-auto flex max-w-6xl items-center px-6 py-3">
