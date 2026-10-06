@@ -17,7 +17,7 @@ const defaultHeaders = () => [
 ];
 
 /** Variable interpolation for environment values, e.g. `{{base_url}}`. */
-const interpolate = (template, vars) =>
+export const interpolate = (template, vars) =>
   Object.entries(vars || {}).reduce(
     (acc, [key, value]) => acc.split(`{{${key}}}`).join(value),
     String(template ?? ''),
