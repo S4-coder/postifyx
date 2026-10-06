@@ -1,11 +1,14 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import SiteShell from '@/components/SiteShell';
 import { API_CATEGORIES, PUBLIC_APIS, STREAM_EXAMPLES } from '@/lib/publicApis';
+import { stageRequest } from '@/lib/handOff';
 
 export default function ApisPage() {
+  const router = useRouter();
   const [category, setCategory] = useState('All');
   const [query, setQuery] = useState('');
 
@@ -19,8 +22,12 @@ export default function ApisPage() {
     });
   }, [category, query]);
 
+  const run = (api) => {
+    if (stageRequest(api)) router.push('/app');
+  };
+
   return (
-    <SiteShell hideOnMobile>
+    <SiteShell>
       <div className="mx-auto max-w-6xl px-6 py-16">
         <h1 className="text-3xl font-semibold tracking-tight">Public API directory</h1>
         <p className="mt-2 max-w-2xl text-sm text-slate-400">
@@ -76,9 +83,9 @@ export default function ApisPage() {
                 {api.method} {api.url}
               </code>
 
-              <p className="mt-4 text-center text-[10px] uppercase tracking-wide text-slate-600">
-                This is an API
-              </p>
+              <button type="button" onClick={() => run(api)} className="oc-btn-primary mt-4 w-full">
+                Run in App
+              </button>
             </article>
           ))}
         </div>
@@ -113,9 +120,17 @@ export default function ApisPage() {
               <code className="mt-3 block truncate rounded bg-[#0d0d0d] px-2 py-1.5 font-mono text-[11px] text-slate-500">
                 {stream.url}
               </code>
-              <p className="mt-4 text-center text-[10px] uppercase tracking-wide text-slate-600">
-                This is an API
-              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  if (stageRequest({ url: stream.url, headers: stream.headers, protocol: stream.protocol })) {
+                    router.push('/app');
+                  }
+                }}
+                className="oc-btn-primary mt-4 w-full"
+              >
+                Open in App
+              </button>
             </article>
           ))}
         </div>
