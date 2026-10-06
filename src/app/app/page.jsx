@@ -360,7 +360,7 @@ export default function WorkspacePage() {
       </div>
 
       {/* ── Right sidebar ─────────────────────────────────────── */}
-      <aside className="hidden w-60 shrink-0 flex-col border-l border-[#1e1e1e] bg-[#121212] md:flex">
+      <aside className="hidden w-60 shrink-0 flex-col border-l border-[#1e1e1e] bg-[#121212] lg:flex">
         {sidePanel ? (
           <>
             <div className="flex h-10 shrink-0 items-center justify-between gap-1.5 border-b border-[#1e1e1e] px-3">
