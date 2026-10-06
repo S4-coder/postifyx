@@ -284,9 +284,9 @@ export default function WorkspacePage() {
   );
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#0d0d0d] text-slate-300">
+    <div className="flex h-dvh w-full overflow-hidden bg-[#0d0d0d] text-slate-300">
       {/* ── Activity rail ─────────────────────────────────────────────── */}
-      <aside className="flex w-12 shrink-0 flex-col items-center justify-between border-r border-[#1e1e1e] bg-[#121212] py-3">
+      <aside className="hidden w-12 shrink-0 flex-col items-center justify-between border-r border-[#1e1e1e] bg-[#121212] py-3 sm:flex">
         <div className="flex flex-col items-center gap-4">
           <span
             className="flex h-7 w-7 items-center justify-center rounded-md border border-emerald-500/30 bg-emerald-500/15 text-emerald-400"
