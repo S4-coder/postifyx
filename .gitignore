@@ -3,6 +3,7 @@ out/
 .next/
 src-tauri/target/
 src-tauri/gen/
+src-tauri/Cargo.lock
 *.log
 .DS_Store
 .env*.local
