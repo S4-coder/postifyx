@@ -250,7 +250,7 @@ export default function WorkspacePage() {
   ) : protocol === 'GRPC' ? (
     <GrpcPanel />
   ) : (
-    <div className="flex h-full flex-col">
+    <div className="hidden md:flex h-full flex-col">
       <div className="flex shrink-0 gap-1 border-b border-[#1e1e1e] px-2">
         {REQUEST_TABS.map((t) => (
           <button
