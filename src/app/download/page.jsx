@@ -11,11 +11,11 @@ const RELEASES = {
     requirements: 'Windows 10 or later, 64-bit',
     primary: {
       name: 'PostifyX-0.1.0-x64-setup.exe',
-      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_x64-setup.exe',
+      href: 'https://github.com/S4-coder/postifyx/releases/download/v0.1.0/PostifyX_0.1.0_x64-setup.exe',
     },
     secondary: {
       name: 'PostifyX-0.1.0-x64-setup.msi',
-      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_amd64_en-US.msi',
+      href: 'https://github.com/S4-coder/postifyx/releases/download/v0.1.0/PostifyX_0.1.0_amd64_en-US.msi',
     },
   },
   macos: {
@@ -23,11 +23,11 @@ const RELEASES = {
     requirements: 'macOS 11 (Big Sur) or later, Intel and Apple Silicon',
     primary: {
       name: 'PostifyX-0.1.0.dmg',
-      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_universal.dmg',
+      href: 'https://github.com/S4-coder/postifyx/releases/download/v0.1.0/PostifyX_0.1.0_universal.dmg',
     },
     secondary: {
       name: 'PostifyX-0.1.0-arm64.dmg',
-      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_aarch64.dmg',
+      href: 'https://github.com/S4-coder/postifyx/releases/download/v0.1.0/PostifyX_0.1.0_aarch64.dmg',
     },
   },
   linux: {
@@ -35,11 +35,11 @@ const RELEASES = {
     requirements: 'glibc 2.31 or later, x64',
     primary: {
       name: 'PostifyX_0.1.0_amd64.AppImage',
-      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_amd64.AppImage',
+      href: 'https://github.com/S4-coder/postifyx/releases/download/v0.1.0/PostifyX_0.1.0_amd64.AppImage',
     },
     secondary: {
       name: 'PostifyX_0.1.0_amd64.deb',
-      href: 'https://github.com/PostifyX/PostifyX/releases/download/v0.1.0/PostifyX_0.1.0_amd64.deb',
+      href: 'https://github.com/S4-coder/postifyx/releases/download/v0.1.0/PostifyX_0.1.0_amd64.deb',
     },
   },
 };
@@ -94,7 +94,7 @@ export default function DownloadPage() {
           {Object.entries(RELEASES).map(([key, release]) => (
             <section
               key={key}
-              className={`rounded-lg border p-5 ${
+              className={`flex flex-col rounded-lg border p-5 ${
                 platform === key ? 'border-emerald-500/50 bg-[#1a1a1a]' : 'border-[#1e1e1e] bg-[#1a1a1a]'
               }`}
             >
