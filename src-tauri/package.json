@@ -1,0 +1,12 @@
+{
+  "name": "openclient-desktop",
+  "version": "0.1.0",
+  "description": "Desktop shell for OpenClient, a local-first API client.",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "tauri": "tauri"
+  }
+}

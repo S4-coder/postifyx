@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * OpenClient workspace theme.
+ *
+ * Surfaces are literal hex rather than Tailwind's slate ramp because the
+ * reference layout (Hoppscotch) uses a warm-neutral near-black ladder, and
+ * slate-950 is blue-tinted enough to read as a different product beside it.
+ * Text keeps the slate ramp: it already provides the contrast ladder we need
+ * and maps cleanly onto these backgrounds.
+ *
+ * The accent is emerald. Every interactive colour routes through the `oc-*`
+ * component classes below so the theme can be retuned from one file.
+ */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-[#0d0d0d] text-slate-300 antialiased;
+    /* Keep text crisp on Windows high-DPI webviews. */
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Thin, unobtrusive scrollbars that fit the dark theme. */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[#0d0d0d];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-[#2a2a2a];
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#3a3a3a];
+  }
+
+  /* Native option lists are not styled by Tailwind, so they need explicit
+     colours or they render as a white dropdown on dark surfaces. */
+  option {
+    @apply bg-[#1a1a1a] text-slate-300;
+  }
+}
+
+@layer components {
+  /* ── Layout surfaces ────────────────────────────────────────────────── */
+
+  /** Rail, sidebar and header surface. */
+  .oc-surface {
+    @apply bg-[#121212];
+  }
+
+  /** Inset areas that need to sit below the base surface: the workspace body
+      and the response pane. */
+  .oc-surface-sunken {
+    @apply bg-[#0d0d0d];
+  }
+
+  /** Raised controls sitting on a surface: inputs, selects, buttons. */
+  .oc-surface-raised {
+    @apply bg-[#1a1a1a];
+  }
+
+  /** Hairline used for every divider in the workspace. */
+  .oc-divider {
+    @apply border-[#1e1e1e];
+  }
+
+  .oc-panel {
+    @apply rounded-md border border-[#1e1e1e] bg-[#121212];
+  }
+
+  /* ── Controls ───────────────────────────────────────────────────────── */
+
+  .oc-input {
+    @apply w-full rounded border border-[#2a2a2a] bg-[#1a1a1a] px-2.5 py-1.5 font-mono text-xs text-slate-200
+      placeholder:text-slate-600 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30;
+  }
+
+  .oc-select {
+    @apply rounded border border-[#2a2a2a] bg-[#1a1a1a] px-2 py-1.5 text-xs text-slate-300
+      focus:border-emerald-500 focus:outline-none;
+  }
+
+  /* ── Tabs ───────────────────────────────────────────────────────────── */
+
+  .oc-tab {
+    @apply border-b-2 border-transparent px-2.5 py-1.5 text-xs font-medium
+      text-slate-500 transition hover:text-slate-200;
+  }
+
+  .oc-tab-active {
+    @apply border-emerald-500 text-emerald-400;
+  }
+
+  /* ── Buttons ────────────────────────────────────────────────────────── */
+
+  .oc-btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded border px-2.5 py-1.5 text-xs font-medium transition
+      focus:outline-none focus:ring-2 focus:ring-emerald-500/30 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Send / Call. Dark text on emerald is the one high-contrast fill in the UI,
+     so it stays reserved for the primary action. */
+  .oc-btn-primary {
+    @apply oc-btn border-transparent bg-emerald-500 font-semibold text-slate-950 hover:bg-emerald-400;
+  }
+
+  .oc-btn-ghost {
+    @apply oc-btn border-[#2a2a2a] bg-[#1a1a1a] text-slate-300 hover:bg-[#222222] hover:text-slate-100;
+  }
+
+  /* ── Activity rail ──────────────────────────────────────────────────── */
+
+  .oc-rail-item {
+    @apply flex h-9 w-9 items-center justify-center rounded transition
+      text-slate-500 hover:bg-[#1e1e1e] hover:text-slate-200;
+  }
+
+  .oc-rail-item-active {
+    @apply bg-emerald-500/10 text-emerald-400;
+  }
+}

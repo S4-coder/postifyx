@@ -1,0 +1,34 @@
+{
+  "name": "openclient",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Ultra-lightweight, local-first, zero-telemetry API client for REST, GraphQL, gRPC, WebSocket and SSE.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "node scripts/check-helpers.mjs",
+    "relay": "node server/proxy.mjs",
+    "streams": "node server/demo-streams.mjs",
+    "dev:full": "node server/proxy.mjs & node server/demo-streams.mjs & next dev",
+    "tauri": "tauri",
+    "desktop:dev": "tauri dev",
+    "desktop:build": "tauri build"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.1.1",
+    "lucide-react": "^1.52.0",
+    "next": "^15.1.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.1.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
+  }
+}

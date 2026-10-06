@@ -1,0 +1,54 @@
+[package]
+name = "openclient"
+version = "0.1.0"
+description = "Local-first multi-protocol API client"
+edition = "2021"
+rust-version = "1.82.0"
+
+[lib]
+name = "openclient_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync"] }
+futures-util = { version = "0.3", default-features = false, features = ["sink", "std"] }
+bytes = "1"
+base64 = "0.22"
+
+# HTTP engine. default-features = false keeps the binary small; TLS comes back
+# through rustls rather than platform-native SSL, which makes cross-platform
+# builds reproducible.
+reqwest = { version = "0.12", default-features = false, features = [
+  "json",
+  "gzip",
+  "brotli",
+  "deflate",
+  "stream",
+  "rustls-tls-native-roots",
+] }
+
+# WebSocket transport (REST-style `ws_connect` command).
+tokio-tungstenite = { version = "0.30", default-features = false, features = [
+  "connect",
+  "handshake",
+  "rustls-tls-webpki-roots",
+] }
+
+# gRPC transport. `transport` pulls in hyper + HTTP/2. prost-reflect does dynamic
+# message encoding/decoding, so no .proto codegen step is required at build time.
+tonic = { version = "0.14", default-features = false, features = ["transport", "router"] }
+prost = "0.14"
+prost-reflect = { version = "0.16", features = ["serde"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

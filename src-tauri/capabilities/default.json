@@ -1,0 +1,6 @@
+{
+  "identifier": "default",
+  "description": "Capabilities for the OpenClient main window. The app defines no plugin commands, so the core defaults plus window control are sufficient.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

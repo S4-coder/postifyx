@@ -1,0 +1,8 @@
+node_modules/
+out/
+.next/
+src-tauri/target/
+src-tauri/gen/
+*.log
+.DS_Store
+.env*.local
