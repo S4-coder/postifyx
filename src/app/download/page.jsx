@@ -79,6 +79,7 @@ export default function DownloadPage() {
             <p className="mt-1 text-sm text-slate-400">{detected.requirements}</p>
             <a
               href={detected.primary.href}
+              download
               className="mt-4 inline-block rounded-md bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500"
             >
               Download for {detected.label}
@@ -111,12 +112,14 @@ export default function DownloadPage() {
               <div className="mt-4 space-y-2">
                 <a
                   href={release.primary.href}
+                  download
                   className="block rounded-md border border-[#2a2a2a] px-3 py-2 text-center font-mono text-xs text-slate-200 transition hover:border-emerald-500 hover:text-emerald-300"
                 >
                   {release.primary.name}
                 </a>
                 <a
                   href={release.secondary.href}
+                  download
                   className="block rounded-md border border-[#1e1e1e] px-3 py-2 text-center font-mono text-xs text-slate-400 transition hover:border-[#2a2a2a] hover:text-slate-200"
                 >
                   {release.secondary.name}
