@@ -17,7 +17,7 @@ export default function SiteShell({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen w-full max-w-full flex-col overflow-x-hidden">
       {/* Sticky navbar: follows the page when you scroll. */}
       <header className="sticky top-0 z-40 border-b border-[#1e1e1e] bg-[#0d0d0d]/90 backdrop-blur">
         <div className="relative mx-auto flex max-w-6xl items-center px-6 py-3">

@@ -334,7 +334,7 @@ export default function WorkspacePage() {
 
         {/* Request builder spans the full workspace width; the
             response below stays a draggable, persistent pane. */}
-        <section className="flex min-h-0 min-w-0 flex-1 flex-col bg-[#121212]">
+        <section className="flex min-h-0 min-w-0 flex-1 flex-col bg-[#121212] overflow-x-hidden">
           {leftPanel}
         </section>
 

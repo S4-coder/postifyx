@@ -102,7 +102,7 @@ export default function RequestBar({ activeSidePanel, onToggleSidePanel }) {
             onChange={(e) => setMethod(e.target.value)}
             disabled={protocol === 'GRAPHQL'}
             title={protocol === 'GRAPHQL' ? 'GraphQL always sends POST' : 'HTTP method'}
-              className="oc-select w-20 sm:w-28 font-mono font-bold"
+            className="oc-select w-20 sm:w-28 font-mono font-bold"
           >
             {HTTP_METHODS.map((m) => (
               <option key={m} value={m} className={METHOD_COLOR[m]}>
@@ -121,20 +121,20 @@ export default function RequestBar({ activeSidePanel, onToggleSidePanel }) {
           spellCheck={false}
           autoCapitalize="off"
           autoCorrect="off"
-            className="oc-input min-w-0 flex-1"
+          className="oc-input min-w-0 flex-1"
         />
 
         <button
           type="button"
           onClick={onPrimary}
           disabled={busy && !streaming}
-            className="oc-btn-primary relative min-w-[6rem] overflow-hidden"
+          className="oc-btn-primary relative min-w-[6rem] overflow-hidden"
         >
           {busy && (
             <span className="absolute inset-x-0 bottom-0 h-0.5 origin-left animate-pulsebar bg-emerald-400" />
           )}
           {buttonLabel}
-            <kbd className="ml-1 hidden rounded bg-emerald-800 px-1 text-[10px] font-normal text-emerald-200">
+          <kbd className="ml-1 hidden rounded bg-emerald-800 px-1 text-[10px] font-normal text-emerald-200">
             ⌘↵
           </kbd>
         </button>

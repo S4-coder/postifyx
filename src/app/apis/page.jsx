@@ -42,7 +42,7 @@ export default function ApisPage() {
             placeholder="Search APIs…"
             className="oc-input max-w-xs"
           />
-          <div className="flex flex-nowrap items-center gap-1 overflow-x-auto whitespace-nowrap">
+          <div className="flex flex-wrap gap-1 w-full max-w-full">
             {API_CATEGORIES.map((c) => (
               <button
                 key={c}
@@ -61,11 +61,11 @@ export default function ApisPage() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid w-full max-w-full gap-4 md:grid-cols-2">
           {filtered.map((api) => (
             <article
               key={api.id}
-              className="flex flex-col rounded-lg border border-[#1e1e1e] bg-[#1a1a1a] p-5 transition hover:border-[#2a2a2a]"
+              className="flex min-w-0 w-full max-w-full flex-col rounded-lg border border-[#1e1e1e] bg-[#1a1a1a] p-5 transition hover:border-[#2a2a2a]"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -77,13 +77,13 @@ export default function ApisPage() {
                 </span>
               </div>
 
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">{api.description}</p>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400 break-words">{api.description}</p>
 
               <code className="mt-3 block truncate rounded bg-[#0d0d0d] px-2 py-1.5 font-mono text-[11px] text-slate-500">
                 {api.method} {api.url}
               </code>
 
-              <button type="button" onClick={() => run(api)} className="oc-btn-primary mt-4">
+              <button type="button" onClick={() => run(api)} className="oc-btn-primary mt-4 w-full">
                 Run in App
               </button>
             </article>
@@ -104,19 +104,19 @@ export default function ApisPage() {
           then open one in the workspace.
         </p>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid w-full max-w-full gap-4 md:grid-cols-2">
           {STREAM_EXAMPLES.map((stream) => (
             <article
               key={stream.id}
-              className="rounded-lg border border-[#1e1e1e] bg-[#1a1a1a] p-5 transition hover:border-[#2a2a2a]"
+              className="flex min-w-0 w-full max-w-full flex-col rounded-lg border border-[#1e1e1e] bg-[#1a1a1a] p-5 transition hover:border-[#2a2a2a]"
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-semibold">{stream.name}</h3>
-                <span className="rounded border border-[#2a2a2a] px-1.5 py-0.5 text-[10px] text-slate-400">
+                <span className="shrink-0 rounded border border-[#2a2a2a] px-1.5 py-0.5 text-[10px] text-slate-400">
                   {stream.protocol}
                 </span>
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">{stream.description}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-400 break-words">{stream.description}</p>
               <code className="mt-3 block truncate rounded bg-[#0d0d0d] px-2 py-1.5 font-mono text-[11px] text-slate-500">
                 {stream.url}
               </code>
@@ -127,7 +127,7 @@ export default function ApisPage() {
                     router.push('/app');
                   }
                 }}
-                className="oc-btn-primary mt-4"
+                className="oc-btn-primary mt-4 w-full"
               >
                 Open in App
               </button>
