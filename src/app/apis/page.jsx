@@ -42,7 +42,7 @@ export default function ApisPage() {
             placeholder="Search APIs…"
             className="oc-input max-w-xs"
           />
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-nowrap items-center gap-1 overflow-x-auto whitespace-nowrap">
             {API_CATEGORIES.map((c) => (
               <button
                 key={c}
