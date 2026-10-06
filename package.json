@@ -1,5 +1,5 @@
 {
-  "name": "openclient",
+  "name": "postifyx",
   "version": "0.1.0",
   "private": true,
   "description": "Ultra-lightweight, local-first, zero-telemetry API client for REST, GraphQL, gRPC, WebSocket and SSE.",
@@ -28,7 +28,14 @@
   "devDependencies": {
     "@tauri-apps/cli": "^2.1.0",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.29",
     "tailwindcss": "^3.4.17"
+  },
+  "overrides": {
+    "postcss": "^8.5.29",
+    "postcss-selector-parser": "^7.1.6",
+    "postcss-nested": "^8.0.1",
+    "chokidar": "^4.0.3",
+    "braces": "^4.0.3"
   }
 }
