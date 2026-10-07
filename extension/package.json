@@ -1,0 +1,48 @@
+{
+  "name": "postifyx",
+  "displayName": "PostifyX",
+  "description": "Open PostifyX API workspace directly inside VS Code — test REST, GraphQL, gRPC, WebSocket and SSE with a built-in console terminal.",
+  "version": "0.1.0",
+  "publisher": "postifyx",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onCommand:postifyx.openWorkspace"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "postifyx.openWorkspace",
+        "title": "Open PostifyX Workspace",
+        "icon": "$(globe-network)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "postifyx.openWorkspace",
+          "group": "postifyx@1"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./ && node esbuild.js",
+    "watch": "tsc -watch -p ./ & node esbuild.js --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.85.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.4.0",
+    "@vscode/vsce": "^3.0.0"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
