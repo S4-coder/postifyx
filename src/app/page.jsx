@@ -57,6 +57,12 @@ export default function LandingPage() {
               Download for your OS
             </Link>
             <Link
+              href="/extension"
+              className="rounded-md border border-[#2a2a2a] px-6 py-3 text-sm font-semibold text-slate-200 transition hover:bg-[#1e1e1e]"
+            >
+              Install VS Code Extension
+            </Link>
+            <Link
               href="/docs"
               className="rounded-md bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500"
             >

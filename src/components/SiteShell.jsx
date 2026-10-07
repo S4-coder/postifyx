@@ -7,6 +7,7 @@ import { Menu, X } from 'lucide-react';
 const NAV = [
   { href: '/apis', label: 'API Directory' },
   { href: '/docs', label: 'Docs' },
+  { href: '/extension', label: 'VS Code Extension' },
   { href: '/download', label: 'Download' },
   { href: '/privacy', label: 'Privacy' },
 ];

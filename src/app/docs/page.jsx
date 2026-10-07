@@ -9,6 +9,7 @@ export const metadata = {
 
 const GUIDE_INDEX = [
   { href: '/docs/quick-start', label: 'Quick start', desc: 'Install and run everything in two minutes' },
+  { href: '/docs/extension', label: 'VS Code extension', desc: 'Open the API workspace directly inside your editor' },
   { href: '/docs/architecture', label: 'Architecture', desc: 'The two layers and why each technology is used' },
   { href: '/docs/protocols', label: 'Protocols', desc: 'REST, GraphQL, WebSocket, SSE and gRPC compared' },
   { href: '/docs/features', label: 'Features', desc: 'Every workspace feature, listed' },
