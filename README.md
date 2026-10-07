@@ -4,6 +4,15 @@ A local-first, zero-telemetry API client built as a Tauri 2 desktop app with a
 Next.js static-export frontend. Requests are issued from a Rust native socket, so
 browser CORS never applies.
 
+
+[![CI](https://github.com/S4-coder/freellmapi/actions/workflows/ci.yml/badge.svg)](https://github.com/S4-coder/freellmapi/actions/workflows/ci.yml)
+[![GitHub stars](https://img.shields.io/github/stars/S4-coder/freellmapi?style=flat&logo=github&color=yellow)](https://github.com/S4-coder/freellmapi/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](#contributing)
+[![Docker image](https://img.shields.io/badge/ghcr.io-freellmapi-2496ED?logo=docker&logoColor=white)](https://github.com/S4-coder/freellmapi/pkgs/container/freellmapi)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/S4-coder/freellmapi)
+
+
 ## Stack
 
 | Layer | Choice |
