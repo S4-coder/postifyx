@@ -4,6 +4,23 @@
   "description": "Open PostifyX API workspace directly inside VS Code — test REST, GraphQL, gRPC, WebSocket and SSE with a built-in console terminal.",
   "version": "0.1.0",
   "publisher": "postifyx",
+  "publisherDisplayName": "PostifyX",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/S4-coder/postifyx.git"
+  },
+  "homepage": "https://github.com/S4-coder/postifyx",
+  "keywords": [
+    "api",
+    "rest",
+    "graphql",
+    "grpc",
+    "websocket",
+    "sse",
+    "postman",
+    "http-client",
+    "testing"
+  ],
   "engines": {
     "vscode": "^1.85.0"
   },

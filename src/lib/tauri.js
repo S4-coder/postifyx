@@ -59,7 +59,10 @@ export function getProxyEndpoint() {
     return `${protocol}//${hostname}:8787`;
   }
 
-  return null;
+  // On a Vercel deployment a standalone relay is never running, but a Next.js
+  // API route is available. The browser cannot call external APIs directly due
+  // to CORS, so forward through `/api/proxy` which runs server-side.
+  return '/api/proxy';
 }
 
 /** Persists a relay override so a hosted deployment can point at its own. */
@@ -169,7 +172,8 @@ async function sendDirect(req, timeoutMs) {
 
 /**
  * Relay path: the request is wrapped in a JSON envelope and forwarded to
- * `server/proxy.mjs`, which performs it server-side where CORS does not apply.
+ * the relay endpoint returned by `getProxyEndpoint()`, which performs it
+ * server-side where CORS does not apply.
  */
 async function sendViaProxy(req, timeoutMs) {
   const endpoint = getProxyEndpoint();
@@ -207,7 +211,7 @@ async function sendViaProxy(req, timeoutMs) {
       return emptyResponse(
         detail
           ? `Relay rejected the request: ${detail}`
-          : `Relay at ${endpoint} returned ${res.status}. Start it with: node server/proxy.mjs`,
+          : `Relay at ${endpoint} returned ${res.status}.`,
         Date.now() - started,
       );
     }
