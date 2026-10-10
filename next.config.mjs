@@ -13,4 +13,6 @@ const nextConfig = {
   },
   // Relative asset paths so the bundle loads from file:// inside the webview.
   assetPrefix: process.env.NODE_ENV === 'production' && !isVercel ? './' : '',
+  // On Vercel, absolute paths (/_next/...) are required so assets resolve
+  // correctly from nested routes like /docs/quick-start/.
 };
