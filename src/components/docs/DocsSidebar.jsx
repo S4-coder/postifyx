@@ -5,33 +5,33 @@ import { usePathname } from 'next/navigation';
 
 const NAV = [
   { href: '/docs', label: 'Overview' },
-  { href: '/docs/quick-start', label: 'Quick start' },
-  { href: '/docs/architecture', label: 'Architecture' },
-  { href: '/docs/protocols', label: 'Protocols' },
-  { href: '/docs/features', label: 'Features' },
+  { href: '/docs#quick-start', label: 'Quick start' },
+  { href: '/docs#architecture', label: 'Architecture' },
+  { href: '/docs#protocols', label: 'Protocols' },
+  { href: '/docs#features', label: 'Features' },
   {
-    href: '/docs/testing',
+    href: '/docs#testing-guide',
     label: 'Testing guide',
     children: [
-      { href: '/docs/testing/rest', label: 'REST' },
-      { href: '/docs/testing/graphql', label: 'GraphQL' },
-      { href: '/docs/testing/auth', label: 'Authentication' },
-      { href: '/docs/testing/environments', label: 'Environments' },
-      { href: '/docs/testing/streams', label: 'WebSocket & SSE' },
-      { href: '/docs/testing/grpc', label: 'gRPC' },
-      { href: '/docs/testing/extras', label: 'Snippets, share, history' },
+      { href: '/docs#testing-rest', label: 'REST' },
+      { href: '/docs#testing-graphql', label: 'GraphQL' },
+      { href: '/docs#testing-auth', label: 'Authentication' },
+      { href: '/docs#testing-environments', label: 'Environments' },
+      { href: '/docs#testing-streams', label: 'WebSocket & SSE' },
+      { href: '/docs#testing-grpc', label: 'gRPC' },
+      { href: '/docs#testing-extras', label: 'Snippets, share, history' },
     ],
   },
-  { href: '/docs/configuration', label: 'Configuration' },
-  { href: '/docs/structure', label: 'Project structure' },
-  { href: '/docs/security', label: 'Security model' },
-  { href: '/docs/troubleshooting', label: 'Troubleshooting' },
+  { href: '/docs#configuration', label: 'Configuration' },
+  { href: '/docs#structure', label: 'Project structure' },
+  { href: '/docs#security', label: 'Security model' },
+  { href: '/docs#troubleshooting', label: 'Troubleshooting' },
 ];
 
 function isActive(path, href) {
-  if (path === href) return true;
-  if (href !== '/docs' && path.startsWith(`${href}/`)) return true;
-  return false;
+  if (href === '/docs') return path === '/docs';
+  const baseHref = href.split('#')[0];
+  return path === baseHref || path === href;
 }
 
 export default function DocsSidebar() {

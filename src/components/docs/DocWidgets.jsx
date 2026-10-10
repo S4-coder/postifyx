@@ -1,6 +1,6 @@
-export function Section({ title, children }) {
+export function Section({ title, children, id }) {
   return (
-    <section className="scroll-mt-24">
+    <section className="scroll-mt-24" {...(id ? { id } : {})}>
       <h2 className="mb-3 border-b border-[#1e1e1e] pb-2 text-xl font-bold text-slate-100">
         {title}
       </h2>
