@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 const NAV = [
   { href: '/docs', label: 'Overview' },
   { href: '/docs#quick-start', label: 'Quick start' },
+  { href: '/docs#vscode', label: 'VS Code Extension' },
   { href: '/docs#architecture', label: 'Architecture' },
   { href: '/docs#protocols', label: 'Protocols' },
   { href: '/docs#features', label: 'Features' },

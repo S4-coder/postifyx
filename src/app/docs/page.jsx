@@ -77,7 +77,7 @@ const STRUCTURE = `src/
     download/page.jsx OS detection + installer links
     privacy/page.jsx  Privacy policy (route)
     terms/page.jsx    Terms & conditions (route)
-    docs/page.jsx     This documentation
+    docs/page.jsx     Documentation (single page, anchor navigation)
   components/         Workspace UI panels
   lib/
     tauri.js          Transport bridge: desktop → direct → relay
@@ -299,12 +299,12 @@ npx vsce package`}
           <li><strong className="text-slate-200">Auth</strong> — none / Bearer token / Basic (username + password, custom header name). Folded into a real header by the payload builder, and redacted in snippets and share links.</li>
           <li><strong className="text-slate-200">Environments</strong> — <code className="text-slate-500">{'{{placeholder}}'}</code> interpolation in URL, headers and body.</li>
           <li><strong className="text-slate-200">Response inspector</strong> — status + status text, time (ms), size, headers list, and the body as raw text or an interactive JSON tree.</li>
-          <li><strong className="text-slate-200">Right sidebar</strong> — toggled from the request-bar icons: History (real, in-memory), Share (live link), Code Snippet (cURL / Fetch / Python / Node.js).</li>
-          <li><strong className="text-slate-200">Resizable response pane</strong> — drag the divider up or down; double-click resets; the height persists.</li>
-          <li><strong className="text-slate-200">Command palette</strong> — Ctrl/Cmd+K, with curated public APIs and streaming examples.</li>
-          <li><strong className="text-slate-200">Collections</strong> — save the current request into a named group; reopening one opens a new tab so the working tab is never overwritten.</li>
-          <li><strong className="text-slate-200">Share links</strong> — the whole request is base64url-encoded into the URL <em>fragment</em> (fragments are never sent to a server); Authorization, X-Api-Key, Api-Key and Proxy-Authorization are redacted to YOUR_TOKEN before encoding.</li>
-          <li><strong className="text-slate-200">History</strong> — newest first, in memory only, never written to disk.</li>
+        <li><strong className="text-slate-200">Left sidebar</strong> — split into Collections, History, Share (live link) and Code Snippet (cURL / Fetch / Python / Node.js) views.</li>
+        <li><strong className="text-slate-200">Resizable response pane</strong> — drag the divider up or down, then double-click resets; the height persists.</li>
+        <li><strong className="text-slate-200">Command palette</strong> — Ctrl/Cmd+K, with curated public APIs and streaming examples.</li>
+        <li><strong className="text-slate-200">Collections</strong> — save the current request into a named group; reopening one opens a new tab so the working tab is never overwritten.</li>
+        <li><strong className="text-slate-200">Share links</strong> — the whole request is base64url-encoded into the URL <em>fragment</em> (fragments are never sent to a server); Authorization, X-API-Key and Proxy-Authorization are redacted to YOUR_TOKEN before encoding.</li>
+        <li><strong className="text-slate-200">History</strong> — newest first, in memory only, never written to disk.</li>
         </ul>
       </Section>
 
@@ -458,9 +458,9 @@ npx vsce package`}
           <Subsection title="Testing snippets, share links, history &amp; layout">
             <StepList
               steps={[
-                'Code snippets: right sidebar → Code icon → switch cURL / Fetch / Python / Node.js → Copy. Paste into a terminal, node or python — it must reproduce the same request, with secrets shown as YOUR_TOKEN.',
-                'Share links: open Share → Copy link → paste into a new tab. The workspace opens with that request staged in its own tab. Check the URL fragment: no secret header value appears anywhere in it.',
-                'History: send two or three requests, then open the History sidebar view — entries appear newest-first with method, status, URL and ms. Click one to reload it.',
+                'Code snippets: left sidebar → Code icon → switch cURL / Fetch / Python / Node.js → Copy. Paste into a terminal, node or python — it must reproduce the same request, with secrets shown as YOUR_TOKEN.',
+                'Share links: left sidebar → Share icon → Copy link → paste into a new tab. The workspace opens with that request staged in its own tab. Check the URL fragment: no secret header value appears anywhere in it.',
+                'History: send two or three requests, then open the History tab in the left sidebar — entries appear newest-first with method, status, URL and ms. Click one to reload it.',
                 'Collections: type a name and press Enter — the current request is saved. Clicking it opens in a new tab, so your working tab is never overwritten.',
                 'Layout: drag the response divider up or down, then double-click it to reset. Reload the page — the height is restored from storage.',
               ]}
