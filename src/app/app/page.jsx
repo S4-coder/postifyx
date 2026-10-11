@@ -1,9 +1,11 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Check, Clock, Copy, Folder, Search, Zap } from 'lucide-react';
 
-import { EnvironmentManager, ProtocolSwitcher } from '@/components/TopBar';
+import { Check, Copy, Search } from 'lucide-react';
+
+import LeftSidebar from '@/app/app/LeftSidebar';
+import { EnvironmentManager } from '@/components/TopBar';
 import RequestBar from '@/components/RequestBar';
 import TabStrip from '@/components/TabStrip';
 import HeadersEditor from '@/components/HeadersEditor';
@@ -16,85 +18,22 @@ import GrpcResponse from '@/components/GrpcResponse';
 import CommandPalette from '@/components/CommandPalette';
 import ResizablePane from '@/components/Resizable';
 import { useRequestStore } from '@/store/useRequestStore';
-import { METHOD_COLOR, getProtocol, isStreaming } from '@/lib/protocols';
+import { getProtocol, isStreaming } from '@/lib/protocols';
 import { generateSnippets, SNIPPET_LANGUAGES } from '@/lib/codeGen';
 import { takeStagedRequest } from '@/lib/handOff';
 import { takeSharedRequest } from '@/lib/share';
 
-/** Tabs for the request/response protocols. gRPC and streams bring their own UI. */
 const REQUEST_TABS = [
   { id: 'headers', label: 'Headers', Component: HeadersEditor },
   { id: 'body', label: 'Body', Component: BodyEditor },
   { id: 'auth', label: 'Auth', Component: AuthManager },
 ];
 
-function HistoryRail() {
-  const history = useRequestStore((s) => s.history);
-  const loadFromHistory = useRequestStore((s) => s.loadFromHistory);
-  const clearHistory = useRequestStore((s) => s.clearHistory);
-
-  return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex items-center justify-between px-3 py-2">
-        <span className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-          <Clock size={11} />
-          History
-        </span>
-        {history.length > 0 && (
-          <button
-            type="button"
-            onClick={clearHistory}
-            className="text-[10px] text-slate-600 hover:text-rose-400"
-          >
-            Clear
-          </button>
-        )}
-      </div>
-
-      <div className="min-h-0 flex-1 overflow-auto">
-        {history.length === 0 ? (
-          <p className="px-3 pb-3 text-[11px] leading-relaxed text-slate-600">
-            Requests you send are listed here. History lives in memory only and is never written to
-            disk or sent anywhere.
-          </p>
-        ) : (
-          history.map((entry) => (
-            <button
-              key={entry.id}
-              type="button"
-              onClick={() => loadFromHistory(entry.id)}
-              className="flex w-full flex-col gap-0.5 border-b border-[#1a1a1a] px-3 py-1.5 text-left hover:bg-[#1a1a1a]"
-            >
-              <span className="flex items-center gap-2 text-[11px]">
-                <span
-                  className={`font-mono font-bold ${METHOD_COLOR[entry.method] ?? 'text-slate-400'}`}
-                >
-                  {entry.method}
-                </span>
-                <span className="text-slate-600">{entry.time_ms} ms</span>
-              </span>
-              <span className="truncate font-mono text-[10px] text-slate-500" title={entry.url}>
-                {entry.url}
-              </span>
-            </button>
-          ))
-        )}
-      </div>
-    </div>
-  );
-}
-
-/** Titles for the sidebar views toggled from the request-bar action icons. */
 const SIDE_PANEL_TITLES = {
-  history: 'History',
   share: 'Share',
   code: 'Code Snippet',
 };
 
-/**
- * Sidebar views toggled by the request-bar action icons. This replaces the
- * old floating overlay: the content renders inside the right sidebar.
- */
 function SidePanelView({ panel }) {
   const buildPayload = useRequestStore((s) => s.buildPayload);
   const method = useRequestStore((s) => s.method);
@@ -109,10 +48,6 @@ function SidePanelView({ panel }) {
   const [copied, setCopied] = useState(false);
   const [snippets, setSnippets] = useState(null);
 
-  // Snippets derive from the live request, which differs between
-  // the server render and the hydrated client state. Building them
-  // in an effect keeps hydration intact; they then track every
-  // edit to the request, headers, body and environment.
   useEffect(() => {
     try {
       setSnippets(generateSnippets(buildPayload()));
@@ -120,10 +55,6 @@ function SidePanelView({ panel }) {
       setSnippets(null);
     }
   }, [buildPayload, url, method, headers, body, bodyFormat, auth, activeEnvId, environments]);
-
-  if (panel === 'history') {
-    return <HistoryRail />;
-  }
 
   if (panel === 'share') {
     return (
@@ -180,7 +111,6 @@ function SidePanelView({ panel }) {
   );
 }
 
-
 export default function WorkspacePage() {
   const protocol = useRequestStore((s) => s.protocol);
   const execute = useRequestStore((s) => s.execute);
@@ -188,7 +118,7 @@ export default function WorkspacePage() {
   const addTab = useRequestStore((s) => s.addTab);
   const [tab, setTab] = useState('headers');
   const [paletteOpen, setPaletteOpen] = useState(false);
-  // 'history' | 'share' | 'code' — toggled by the request-bar icons
+  const [activeNav, setActiveNav] = useState('collections');
   const [sidePanel, setSidePanel] = useState(null);
 
   const active = REQUEST_TABS.find((t) => t.id === tab) ?? REQUEST_TABS[0];
@@ -199,21 +129,14 @@ export default function WorkspacePage() {
   const closePalette = useCallback(() => setPaletteOpen(false), []);
   const openPalette = useCallback(() => setPaletteOpen(true), []);
 
-  // Request-bar action icons toggle a sidebar view instead of a modal.
   const toggleSidePanel = useCallback((panel) => {
     setSidePanel((prev) => (prev === panel ? null : panel));
   }, []);
 
-  // Persist runs with `skipHydration`, so the saved workspace lands
-  // here rather than during store creation. Rehydrating before the
-  // staged/shared-request effects means a request opened from a link
-  // is added on top of the saved tabs, never overwritten by them.
   useEffect(() => {
     useRequestStore.persist.rehydrate();
   }, []);
 
-  // Ctrl/Cmd+K is the only global shortcut. It is bound here rather than inside
-  // the palette so the shortcut still works while focus sits in a textarea.
   useEffect(() => {
     const onKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -225,20 +148,16 @@ export default function WorkspacePage() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  // Consume a request staged by the /apis "Run in App" button.
   useEffect(() => {
     const staged = takeStagedRequest();
     if (staged) useRequestStore.getState().applyStagedRequest(staged);
   }, []);
 
-  // Consume a request opened from a shared link, in its own tab.
   useEffect(() => {
     const shared = takeSharedRequest();
     if (shared) addTab({ title: 'Shared request', ...shared });
   }, [addTab]);
 
-  // Never leave a socket open behind us: switching protocol or closing the
-  // window must tear the stream down.
   useEffect(() => {
     if (!streaming) disconnectStream();
   }, [protocol, streaming, disconnectStream]);
@@ -284,24 +203,13 @@ export default function WorkspacePage() {
   );
 
   return (
-    <div className="hidden md:flex h-dvh w-full overflow-hidden bg-[#0d0d0d] text-slate-300">
-      {/* ── Activity rail ─────────────────────────────────────────────── */}
-      <aside className="hidden w-12 shrink-0 flex-col items-center justify-between border-r border-[#1e1e1e] bg-[#121212] py-3 sm:flex">
-        <div className="flex flex-col items-center gap-4">
-          <span
-            className="flex h-7 w-7 items-center justify-center rounded-md border border-emerald-500/30 bg-emerald-500/15 text-emerald-400"
-            title="PostifyX"
-          >
-            <Zap size={14} />
-          </span>
-          <ProtocolSwitcher />
-        </div>
-        <span className="text-[9px] font-medium tracking-tight text-slate-700">v0.1</span>
-      </aside>
+    <div
+      className="hidden md:flex h-dvh w-full overflow-hidden bg-[#0d0d0d] text-slate-300"
+      suppressHydrationWarning
+    >
+      <LeftSidebar activeNav={activeNav} setActiveNav={setActiveNav} />
 
-      {/* ── Main column ───────────────────────────────────────────────── */}
       <div className="flex min-w-0 flex-1 flex-col">
-        {/* Top global bar */}
         <header className="flex h-10 shrink-0 items-center justify-between gap-4 border-b border-[#1e1e1e] bg-[#121212] px-3">
           <div className="flex min-w-0 items-center gap-2">
             <span className="truncate text-xs font-semibold text-slate-100">
@@ -311,8 +219,6 @@ export default function WorkspacePage() {
             <span className="truncate text-[11px] text-slate-500">{activeProtocol.tagline}</span>
           </div>
 
-          {/* Command palette trigger. A real button, not a placeholder: it opens
-              the same palette the Ctrl+K shortcut does. */}
           <button
             type="button"
             onClick={openPalette}
@@ -332,8 +238,6 @@ export default function WorkspacePage() {
 
         <RequestBar activeSidePanel={sidePanel} onToggleSidePanel={toggleSidePanel} />
 
-        {/* Request builder spans the full workspace width; the
-            response below stays a draggable, persistent pane. */}
         <section className="flex min-h-0 min-w-0 flex-1 flex-col bg-[#121212] overflow-x-hidden">
           {leftPanel}
         </section>
@@ -359,38 +263,24 @@ export default function WorkspacePage() {
         )}
       </div>
 
-      {/* ── Right sidebar ─────────────────────────────────────── */}
-      <aside className="hidden w-60 shrink-0 flex-col border-l border-[#1e1e1e] bg-[#121212] lg:flex">
-        {sidePanel ? (
-          <>
-            <div className="flex h-10 shrink-0 items-center justify-between gap-1.5 border-b border-[#1e1e1e] px-3">
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                {SIDE_PANEL_TITLES[sidePanel]}
-              </span>
-              <button
-                type="button"
-                onClick={() => setSidePanel(null)}
-                aria-label="Close panel"
-                className="text-slate-600 hover:text-slate-300"
-              >
-                ✕
-              </button>
-            </div>
-            <SidePanelView panel={sidePanel} />
-          </>
-        ) : (
-          <>
-            <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-[#1e1e1e] px-3">
-              <Folder size={12} className="text-slate-500" />
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                Workspace
-              </span>
-            </div>
-
-            <HistoryRail />
-          </>
-        )}
-      </aside>
+      {sidePanel && (
+        <aside className="hidden w-60 shrink-0 flex-col border-l border-[#1e1e1e] bg-[#121212] lg:flex">
+          <div className="flex h-10 shrink-0 items-center justify-between gap-1.5 border-b border-[#1e1e1e] px-3">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+              {SIDE_PANEL_TITLES[sidePanel]}
+            </span>
+            <button
+              type="button"
+              onClick={() => setSidePanel(null)}
+              aria-label="Close panel"
+              className="text-slate-600 hover:text-slate-300"
+            >
+              ✕
+            </button>
+          </div>
+          <SidePanelView panel={sidePanel} />
+        </aside>
+      )}
 
       <CommandPalette open={paletteOpen} onClose={closePalette} />
     </div>

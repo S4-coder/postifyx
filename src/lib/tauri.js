@@ -40,10 +40,11 @@ export function isDesktop() {
 /**
  * Where the relay lives, or `null` when no relay is reachable.
  *
- * The static export has no server, so there is deliberately no `/api/proxy`
- * fallback: pointing at it would only ever produce a 404. Instead the relay is
- * the bundled dev server on port 8787 when the page itself is served from
- * localhost, or whatever a hosted deployment configured explicitly.
+ * The standalone relay (`server/proxy.mjs` on port 8787) is used when the page
+ * itself is served from localhost. On a Vercel deployment a standalone relay is
+ * never running, but a Next.js App Router API route at `/api/proxy` is
+ * available instead — the browser cannot call external APIs directly due to
+ * CORS, so forward through that route which runs server-side.
  */
 export function getProxyEndpoint() {
   const configured =
@@ -72,6 +73,36 @@ export function setProxyEndpoint(url) {
     else window.localStorage.removeItem('PostifyX.proxy');
   } catch {
     /* storage unavailable: fall back to the default endpoint */
+  }
+}
+
+/** True when the current page is served from a remote (non-local) origin. */
+function isRemoteOrigin() {
+  if (typeof window === 'undefined') return false;
+  const { hostname } = window.location;
+  return hostname !== 'localhost' && hostname !== '127.0.0.1';
+}
+
+/**
+ * True when a target URL points at the current machine (localhost, 127.0.0.1,
+ * or a private/loopback range). Calling such a URL from a remotely-hosted tab
+ * is impossible: the browser blocks it via CORS and the server-side relay
+ * runs on the server, not on the user's machine.
+ */
+function isLocalTarget(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.toLowerCase();
+    return (
+      host === 'localhost' ||
+      host === '127.0.0.1' ||
+      host === '0.0.0.0' ||
+      host.startsWith('192.168.') ||
+      host.startsWith('10.') ||
+      host.startsWith('172.')
+    );
+  } catch {
+    return false;
   }
 }
 
@@ -252,6 +283,21 @@ export async function sendRequest(req) {
   if (problem) return emptyResponse(problem);
 
   if (isDesktop()) return sendViaDesktop(req);
+
+  // When the app itself is hosted on a remote origin (e.g. Vercel) and the
+  // user targets a localhost/private address, neither a direct browser fetch
+  // nor a server-side relay can reach it. Detect this up front and show an
+  // actionable message instead of a generic CORS error.
+  if (isRemoteOrigin() && isLocalTarget(req.url)) {
+    return emptyResponse(
+      `Cannot reach ${new URL(req.url).hostname} from this page because it is hosted on a remote server ` +
+        '(e.g. Vercel). The browser blocks the direct fetch, and the server-side relay ' +
+        'runs on the server — not on your machine. ' +
+        'Choose one: (1) use the PostifyX desktop app, which has native sockets and no CORS; ' +
+        '(2) expose your local API with ngrok or localtunnel and call the public URL; ' +
+        'or (3) run `npm run dev:full` to use the app from localhost.',
+    );
+  }
 
   const timeoutMs = req.timeout_ms > 0 ? req.timeout_ms : 60_000;
 

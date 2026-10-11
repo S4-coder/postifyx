@@ -15,7 +15,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       {/* `suppressHydrationWarning` covers one level only, so it belongs on
         `<body>` itself: that is where browser extensions inject their own
         attributes (Grammarly adds `data-gr-*`) before React hydrates. The
