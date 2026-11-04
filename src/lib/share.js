@@ -37,7 +37,7 @@ const redact = (headers) =>
 /**
  * Builds a link that reopens this request.
  *
- * @param {{url: string, method: string, headers: Record<string,string>, body?: string, bodyFormat?: string}} request
+ * @param {{url: string, method: string, protocol?: string, headers: Record<string,string>, body?: string, bodyFormat?: string, graphql?: {query: string, variables: string}}} request
  * @returns {string} absolute URL
  */
 export function buildShareUrl(request) {
@@ -45,9 +45,11 @@ export function buildShareUrl(request) {
     JSON.stringify({
       u: request.url,
       m: request.method,
+      p: request.protocol ?? 'REST',
       h: redact(request.headers),
       b: request.body ?? '',
       f: request.bodyFormat,
+      g: request.graphql,
     }),
   );
 
@@ -75,9 +77,11 @@ export function takeSharedRequest() {
     return {
       url: decoded.u,
       method: decoded.m ?? 'GET',
+      protocol: decoded.p ?? 'REST',
       headers: decoded.h ?? {},
       body: decoded.b ?? '',
       bodyFormat: decoded.f,
+      ...(decoded.g ? { graphql: decoded.g } : {}),
     };
   } catch {
     return null;

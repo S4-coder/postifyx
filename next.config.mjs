@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
 const isVercel = process.env.VERCEL === '1';
+const pageExtensions = ['js', 'jsx', 'ts', 'tsx'];
 const nextConfig = {
   // Static HTML export is only needed for the Tauri desktop bundle. On Vercel
   // (or any server-side Next.js runtime) a full SSR build resolves CSS/reload
   // issues and lets API routes like /api/proxy work.
   output: isVercel ? undefined : 'export',
+  // The proxy API is a Vercel server route and cannot be part of a static
+  // desktop export. Its .mjs extension keeps it available only to Vercel.
+  pageExtensions: isVercel ? [...pageExtensions, 'mjs'] : pageExtensions,
   // Pin the workspace root. There is a stray package-lock.json in the parent
   // home directory that makes Next.js infer the wrong root.
   outputFileTracingRoot: import.meta.dirname,
@@ -19,3 +23,5 @@ const nextConfig = {
   // correctly from nested routes like /docs/quick-start/.
   assetPrefix: process.env.NODE_ENV === 'production' && !isVercel ? './' : '',
 };
+
+export default nextConfig;

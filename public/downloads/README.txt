@@ -1,4 +1,4 @@
-﻿Place the built installers in this folder:
-- PostifyX-0.1.0-x64-setup.exe (Windows)
-- PostifyX-0.1.0-universal.dmg (macOS)
-- PostifyX-0.1.0-amd64.AppImage (Linux)
+Desktop installers are published as GitHub Releases by the build-release workflow.
+Download them from https://github.com/S4-coder/postifyx/releases
+
+Installers are not checked into this website's static downloads folder.

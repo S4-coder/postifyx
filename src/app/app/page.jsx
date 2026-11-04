@@ -8,8 +8,10 @@ import LeftSidebar from '@/app/app/LeftSidebar';
 import { EnvironmentManager } from '@/components/TopBar';
 import RequestBar from '@/components/RequestBar';
 import TabStrip from '@/components/TabStrip';
+import ParamsEditor from '@/components/ParamsEditor';
 import HeadersEditor from '@/components/HeadersEditor';
 import BodyEditor from '@/components/BodyEditor';
+import GraphqlEditor from '@/components/GraphqlEditor';
 import AuthManager from '@/components/AuthManager';
 import ResponseInspector from '@/components/ResponseInspector';
 import StreamConsole from '@/components/StreamConsole';
@@ -21,32 +23,50 @@ import { useRequestStore } from '@/store/useRequestStore';
 import { getProtocol, isStreaming } from '@/lib/protocols';
 import { generateSnippets, SNIPPET_LANGUAGES } from '@/lib/codeGen';
 import { takeStagedRequest } from '@/lib/handOff';
-import { takeSharedRequest } from '@/lib/share';
+import { buildShareUrl, takeSharedRequest } from '@/lib/share';
 
 const REQUEST_TABS = [
+  { id: 'params', label: 'Params', Component: ParamsEditor },
   { id: 'headers', label: 'Headers', Component: HeadersEditor },
   { id: 'body', label: 'Body', Component: BodyEditor },
   { id: 'auth', label: 'Auth', Component: AuthManager },
 ];
 
 const SIDE_PANEL_TITLES = {
+  save: 'Save to Collection',
   share: 'Share',
   code: 'Code Snippet',
 };
 
 function SidePanelView({ panel }) {
   const buildPayload = useRequestStore((s) => s.buildPayload);
+  const collections = useRequestStore((s) => s.collections);
+  const tabs = useRequestStore((s) => s.tabs);
+  const activeTabId = useRequestStore((s) => s.activeTabId);
+  const saveToCollection = useRequestStore((s) => s.saveToCollection);
   const method = useRequestStore((s) => s.method);
   const url = useRequestStore((s) => s.url);
   const headers = useRequestStore((s) => s.headers);
   const body = useRequestStore((s) => s.body);
   const bodyFormat = useRequestStore((s) => s.bodyFormat);
+  const graphql = useRequestStore((s) => s.graphql);
+  const params = useRequestStore((s) => s.params);
+  const protocol = useRequestStore((s) => s.protocol);
   const auth = useRequestStore((s) => s.auth);
   const activeEnvId = useRequestStore((s) => s.activeEnvId);
   const environments = useRequestStore((s) => s.environments);
   const [language, setLanguage] = useState('curl');
   const [copied, setCopied] = useState(false);
+  const [shareUrl, setShareUrl] = useState('');
+  const [shareCopied, setShareCopied] = useState(false);
+  const [shareCopyError, setShareCopyError] = useState('');
+  const [createCollection, setCreateCollection] = useState(false);
+  const [collectionName, setCollectionName] = useState('');
+  const [requestName, setRequestName] = useState('');
+  const [saveMessage, setSaveMessage] = useState('');
+  const [saveError, setSaveError] = useState('');
   const [snippets, setSnippets] = useState(null);
+  const activeRequestTitle = tabs.find((tab) => tab.id === activeTabId)?.title ?? 'Untitled request';
 
   useEffect(() => {
     try {
@@ -54,17 +74,143 @@ function SidePanelView({ panel }) {
     } catch {
       setSnippets(null);
     }
-  }, [buildPayload, url, method, headers, body, bodyFormat, auth, activeEnvId, environments]);
+  }, [buildPayload, url, method, headers, body, bodyFormat, auth, graphql, params, protocol, activeEnvId, environments]);
+
+  useEffect(() => {
+    if (panel !== 'share') return;
+    try {
+      const payload = buildPayload();
+      setShareUrl(
+        buildShareUrl({
+          ...payload,
+          body: protocol === 'GRAPHQL' ? body : payload.body,
+          graphql,
+          protocol,
+        }),
+      );
+    } catch {
+      setShareUrl('');
+    }
+  }, [panel, buildPayload, url, method, headers, body, bodyFormat, auth, graphql, params, protocol, activeEnvId, environments]);
+
+  useEffect(() => {
+    if (panel !== 'save') return;
+    setCreateCollection(collections.length === 0);
+    setCollectionName(collections[0]?.name ?? '');
+    setRequestName(activeRequestTitle);
+    setSaveMessage('');
+    setSaveError('');
+  }, [panel, activeTabId, activeRequestTitle]);
+
+  if (panel === 'save') {
+    return (
+      <form
+        className="min-h-0 flex-1 space-y-3 overflow-auto p-3"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const targetCollection = collectionName.trim();
+          const targetRequest = requestName.trim();
+          if (!targetCollection || !targetRequest) {
+            setSaveError('Enter both a collection name and a request name.');
+            setSaveMessage('');
+            return;
+          }
+
+          saveToCollection(targetCollection, targetRequest);
+          setSaveMessage(`Saved "${targetRequest}" to "${targetCollection}".`);
+          setSaveError('');
+        }}
+      >
+        <label className="block text-[10px] text-slate-500">
+          Collection
+          <select
+            value={createCollection ? '' : collectionName}
+            onChange={(event) => {
+              const nextName = event.target.value;
+              setCreateCollection(nextName === '');
+              setCollectionName(nextName);
+              setSaveMessage('');
+              setSaveError('');
+            }}
+            className="oc-select mt-1 w-full"
+          >
+            <option value="">Create a new collection</option>
+            {collections.map((collection) => (
+              <option key={collection.id} value={collection.name}>
+                {collection.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        {createCollection && (
+          <label className="block text-[10px] text-slate-500">
+            New collection name
+            <input
+              value={collectionName}
+              onChange={(event) => {
+                setCollectionName(event.target.value);
+                setSaveMessage('');
+                setSaveError('');
+              }}
+              placeholder="My collection"
+              className="oc-input mt-1"
+            />
+          </label>
+        )}
+        <label className="block text-[10px] text-slate-500">
+          Request name
+          <input
+            value={requestName}
+            onChange={(event) => setRequestName(event.target.value)}
+            className="oc-input mt-1"
+          />
+        </label>
+        <p className="text-[10px] leading-relaxed text-slate-600">
+          Saving a request with the same name replaces the existing request in that collection.
+        </p>
+        <button type="submit" className="oc-btn-primary w-full">
+          Save request
+        </button>
+        {saveError && <p role="alert" className="text-[10px] text-rose-400">{saveError}</p>}
+        {saveMessage && <p role="status" className="text-[10px] text-emerald-400">{saveMessage}</p>}
+      </form>
+    );
+  }
 
   if (panel === 'share') {
     return (
       <div className="min-h-0 flex-1 overflow-auto p-3">
-        <p className="text-slate-400 text-[11px] mb-2">URL Fragment containing request details:</p>
+        <p className="mb-2 text-[11px] leading-relaxed text-slate-400">
+          Share this request link. Sensitive authorization headers are redacted before sharing.
+        </p>
         <input
           readOnly
-          value={url}
-          className="w-full bg-[#0a0a0a] border border-[#2a2a2a] p-2 rounded text-[11px] font-mono text-slate-300 focus:outline-none"
+          value={shareUrl}
+          aria-label="Shareable request URL"
+          className="w-full rounded border border-[#2a2a2a] bg-[#0a0a0a] p-2 text-[11px] font-mono text-slate-300 focus:outline-none"
         />
+        <button
+          type="button"
+          disabled={!shareUrl}
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(shareUrl);
+              setShareCopied(true);
+              setShareCopyError('');
+              setTimeout(() => setShareCopied(false), 1400);
+            } catch {
+              setShareCopyError('Could not access the clipboard. Select the link and copy it manually.');
+            }
+          }}
+          className="mt-2 w-full rounded border border-[#2a2a2a] px-2 py-1.5 text-[11px] text-slate-300 transition hover:border-emerald-500 hover:text-emerald-300 disabled:opacity-40"
+        >
+          {shareCopied ? 'Copied' : 'Copy link'}
+        </button>
+        {shareCopyError && (
+          <p role="status" className="mt-2 text-[10px] text-amber-400">
+            {shareCopyError}
+          </p>
+        )}
       </div>
     );
   }
@@ -155,7 +301,14 @@ export default function WorkspacePage() {
 
   useEffect(() => {
     const shared = takeSharedRequest();
-    if (shared) addTab({ title: 'Shared request', ...shared });
+    if (shared) {
+      const headers = Object.entries(shared.headers ?? {}).map(([key, value]) => ({
+        key,
+        value: String(value),
+        enabled: true,
+      }));
+      addTab({ title: 'Shared request', ...shared, headers });
+    }
   }, [addTab]);
 
   useEffect(() => {
@@ -178,12 +331,12 @@ export default function WorkspacePage() {
             onClick={() => setTab(t.id)}
             className={['oc-tab', tab === t.id ? 'oc-tab-active' : ''].filter(Boolean).join(' ')}
           >
-            {t.label}
+            {protocol === 'GRAPHQL' && t.id === 'body' ? 'Query' : t.label}
           </button>
         ))}
       </div>
       <div className="min-h-0 flex-1 overflow-auto">
-        <ActiveComponent />
+        {protocol === 'GRAPHQL' && active.id === 'body' ? <GraphqlEditor /> : <ActiveComponent />}
       </div>
     </div>
   );

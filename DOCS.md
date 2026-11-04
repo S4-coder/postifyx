@@ -30,6 +30,9 @@ Open <http://localhost:3000> → **Workspace** (or go straight to `/app`).
 | `npm run build` | Static export into `out/` | What the Tauri webview loads |
 | `npm run desktop:dev` / `desktop:build` | Tauri dev / installers | Native transports (no CORS at all) |
 
+Prebuilt installers are published to [GitHub Releases](https://github.com/S4-coder/postifyx/releases)
+when a version tag is pushed. Installers are not stored in `public/downloads/`.
+
 > Never run `npm run build` while `npm run dev` is running — both write
 > `.next` and will clobber each other (this produces
 > `Cannot find module './xxx.js'` errors). Stop one first.
@@ -102,14 +105,16 @@ request bar).
   headers, body (`interpolate()` in the store).
 - **Response inspector** — status + status text, time (ms), size, headers
   list, body view: raw text or interactive JSON tree (`JsonTree`).
-- **Right sidebar** — toggled from the request-bar icons: History (real,
-  in-memory), Share (live link), Code Snippet (cURL/Fetch/Python/Node.js).
+- **Right sidebar** — toggled from the request-bar icons: Save to
+  Collection, Share (live link), and Code Snippet
+  (cURL/Fetch/Python/Node.js).
 - **Resizable response pane** — drag the divider (or double-click to
   reset); height persists in `PostifyX.layout.response`.
 - **Command palette** — `Ctrl/Cmd+K`, with curated public APIs and
   streaming examples.
-- **Collections** — save the current request into a named group; reopen in
-  a new tab so the working tab is never overwritten.
+- **Collections** — save the current request into an existing or new named
+  group; reopen in a new tab so the working tab is never overwritten.
+  Saving the same request name in a collection replaces that saved entry.
 - **Share links** — the whole request is base64url-encoded into the URL
   **fragment** (fragments are never sent to a server); `Authorization`,
   `X-Api-Key`, `Api-Key`, `Proxy-Authorization` are redacted to
@@ -157,10 +162,9 @@ defines no plugin permissions, minimizing attack surface.
 npm test
 ```
 
-Asserts: snippet generation (method, URL, quoting, secret redaction,
-GET-omits-body, quote escaping) and body formatting (5 formats, JSON
-re-indent, invalid JSON error, JS passthrough, XML line breaks, UTF-8
-byte/line counts). Expected output: `all passing`.
+Asserts: snippet generation, body formatting, URL query-parameter
+round-tripping (including duplicate and disabled keys), and GraphQL request
+body/variable handling. Expected output: `all passing`.
 
 ### 4.2 REST
 
@@ -168,6 +172,7 @@ byte/line counts). Expected output: `all passing`.
 | --- | --- | --- |
 | Basic GET | `GET https://api.github.com/zen` | `200`, one line of text |
 | JSON array | `GET https://jsonplaceholder.typicode.com/todos?_limit=5` | `200`, JSON array of 5 todos |
+| Query parameters | Open **Params**; add or disable keys and values | Enabled values are encoded into the URL; repeated keys are preserved |
 | POST with body | `POST https://jsonplaceholder.typicode.com/posts`, Body → JSON `{"title":"hi","body":"yo","userId":1}` | `201`, response echoes `id` |
 | PUT / DELETE | `PUT`/`DELETE` on `.../posts/1` | `200` |
 | Custom headers | `GET https://httpbin.org/get` with header `X-Test: hello` | Response JSON `headers` object contains `X-Test: hello` |
@@ -178,13 +183,19 @@ byte/line counts). Expected output: `all passing`.
 
 ### 4.3 GraphQL
 
-`POST https://countries.trevorblades.com/` (no auth), Body → JSON:
+`POST https://countries.trevorblades.com/` (no auth), Query tab:
 
-```json
-{ "query": "{ countries { code name } }" }
+```graphql
+query {
+  countries {
+    code
+    name
+  }
+}
 ```
 
-Expected: `200` with a `data.countries` array. (GitHub's
+Enter variables as a JSON object in the Variables editor when the query
+declares them. Expected: `200` with a `data.countries` array. (GitHub's
 `https://api.github.com/graphql` needs a Bearer token — good auth test.)
 
 ### 4.4 Authentication
@@ -254,9 +265,10 @@ the same request, with secrets as `YOUR_TOKEN`.
 ### 4.11 History & collections
 
 - Send 2–3 requests → right sidebar **History** lists them newest-first
-  with status, URL, and ms. Click one to reload it.
-- Collections: name a collection → Enter → the current request is saved;
-  clicking it opens in a **new** tab.
+  with status, URL, and ms. Click one to restore its full request configuration.
+- Click **Save request to collection**, choose or create a collection, enter
+  a request name, and save. Clicking the saved request opens it in a **new**
+  tab.
 
 ### 4.12 Layout
 

@@ -1,6 +1,7 @@
 'use client';
 
-import { interpolate, useRequestStore } from '@/store/useRequestStore';
+import { interpolate } from '@/lib/interpolate';
+import { useRequestStore } from '@/store/useRequestStore';
 
 /**
  * Headers tab: key/value rows with per-row enable toggles and an

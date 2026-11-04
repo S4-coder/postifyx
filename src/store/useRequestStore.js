@@ -5,6 +5,9 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { methodForProtocol } from '@/lib/protocols';
 import { describeUrlProblem, SSE_SCHEMES, WS_SCHEMES } from '@/lib/urlCheck';
 import { DEFAULT_BODY_FORMAT, contentTypeFor } from '@/lib/bodyFormats';
+import { buildGraphQLBody } from '@/lib/graphql';
+import { interpolate } from '@/lib/interpolate';
+import { appendRequestParams, extractRequestParams } from '@/lib/requestParams';
 
 /**
  * Default headers offered on a fresh request. `enabled: false` keeps the
@@ -16,12 +19,7 @@ const defaultHeaders = () => [
   { key: 'Content-Type', value: 'application/json', enabled: true },
 ];
 
-/** Variable interpolation for environment values, e.g. `{{base_url}}`. */
-export const interpolate = (template, vars) =>
-  Object.entries(vars || {}).reduce(
-    (acc, [key, value]) => acc.split(`{{${key}}}`).join(value),
-    String(template ?? ''),
-  );
+export { interpolate } from '@/lib/interpolate';
 
 const emptyResponse = () => ({
   status: 0,
@@ -35,7 +33,7 @@ const emptyResponse = () => ({
 });
 
 /** Fields that belong to a request tab rather than to the workspace. */
-const TAB_KEYS = ['protocol', 'method', 'url', 'headers', 'body', 'bodyFormat', 'auth', 'grpc'];
+const TAB_KEYS = ['protocol', 'method', 'url', 'params', 'headers', 'body', 'bodyFormat', 'auth', 'graphql', 'grpc'];
 
 /**
  * Reads the tab-owned fields off the store state.
@@ -65,10 +63,12 @@ const blankTab = (overrides = {}) => ({
   protocol: 'REST',
   method: 'GET',
   url: '',
+  params: [],
   headers: defaultHeaders(),
   body: '',
   bodyFormat: DEFAULT_BODY_FORMAT,
   auth: { type: 'none', token: '', username: '', password: '', header: 'Authorization' },
+  graphql: { query: '', variables: '{}' },
   grpc: {
     service: '',
     method: '',
@@ -111,11 +111,13 @@ export const useRequestStore = create(
       // ── Request config ────────────────────────────────────────────────────
       url: 'https://jsonplaceholder.typicode.com/todos/1',
       method: 'GET',
+      params: [],
       headers: defaultHeaders(),
       body: '',
       /** Drives the body editor's affordance and the Content-Type default. */
       bodyFormat: DEFAULT_BODY_FORMAT,
       auth: { type: 'none', token: '', username: '', password: '', header: 'Authorization' },
+      graphql: { query: '', variables: '{}' },
 
       // ── Execution state ───────────────────────────────────────────────────
       loading: false,
@@ -193,8 +195,35 @@ export const useRequestStore = create(
 
       // ── Request field actions ─────────────────────────────────────────────
       setUrl: (url) => set((state) => withTab(state, { url })),
+      syncUrlParams: () =>
+        set((state) => {
+          const parsed = extractRequestParams(state.url);
+          return parsed ? withTab(state, parsed) : {};
+        }),
       setMethod: (method) => set((state) => withTab(state, { method })),
       setBody: (body) => set((state) => withTab(state, { body })),
+      setGraphql: (patch) =>
+        set((state) =>
+          withTab(state, { graphql: { ...state.graphql, ...patch } }),
+        ),
+      addParam: () =>
+        set((state) =>
+          withTab(state, {
+            params: [...(state.params ?? []), { key: '', value: '', enabled: true }],
+          }),
+        ),
+      updateParam: (index, patch) =>
+        set((state) =>
+          withTab(state, {
+            params: (state.params ?? []).map((param, i) =>
+              i === index ? { ...param, ...patch } : param,
+            ),
+          }),
+        ),
+      removeParam: (index) =>
+        set((state) =>
+          withTab(state, { params: (state.params ?? []).filter((_, i) => i !== index) }),
+        ),
 
       /**
        * Switching format also rewrites an enabled `Content-Type` header, so the
@@ -287,11 +316,19 @@ export const useRequestStore = create(
           headers['X-API-Key'] = interpolate(state.auth.token.trim(), vars);
         }
 
-        const body = interpolate(state.body, vars);
+        const body =
+          state.protocol === 'GRAPHQL'
+            ? buildGraphQLBody(state.graphql.query, state.graphql.variables, vars)
+            : interpolate(state.body, vars);
+        const url = appendRequestParams(
+          interpolate(state.url, vars).trim(),
+          state.params,
+          (value) => interpolate(value, vars),
+        );
 
         return {
-          url: interpolate(state.url, vars).trim(),
-          method: state.method,
+          url,
+          method: methodForProtocol(state.protocol, state.method),
           headers,
           body: body === '' ? undefined : body,
         };
@@ -299,7 +336,19 @@ export const useRequestStore = create(
 
       /** Runs the active request through the desktop engine and records history. */
       execute: async () => {
-        const payload = get().buildPayload();
+        let payload;
+        try {
+          payload = get().buildPayload();
+        } catch (err) {
+          set({
+            response: {
+              ...emptyResponse(),
+              error: `Invalid GraphQL request: ${String(err?.message ?? err)}`,
+            },
+          });
+          return;
+        }
+        const request = readTab(get());
 
         if (!payload.url) {
           set({
@@ -322,6 +371,7 @@ export const useRequestStore = create(
             status: response.status,
             time_ms: response.time_ms,
             at: new Date().toISOString(),
+            request,
           };
 
           set((state) => ({
@@ -368,9 +418,11 @@ export const useRequestStore = create(
         if (!entry) return;
         set((state) => ({
           ...withTab(state, {
-            protocol: entry.protocol ?? state.protocol,
-            url: entry.url,
-            method: entry.method,
+            ...(entry.request ?? {
+              protocol: entry.protocol ?? state.protocol,
+              url: entry.url,
+              method: entry.method,
+            }),
           }),
           response: emptyResponse(),
         }));
@@ -707,14 +759,20 @@ export const useRequestStore = create(
       // hydration check. `WorkspacePage` calls `persist.rehydrate()`
       // in an effect instead, after the first paint.
       skipHydration: true,
-      version: 2,
+      version: 3,
       /**
        * v1 stored a single flat request. Lift it into a one-tab workspace so an
        * existing install keeps its URL, headers, body and environment instead of
        * silently resetting.
        */
       migrate: (persisted) => {
-        if (!persisted || Array.isArray(persisted.tabs)) return persisted;
+        if (!persisted) return persisted;
+        if (Array.isArray(persisted.tabs)) {
+          return {
+            ...persisted,
+            tabs: persisted.tabs.map((tab) => ({ ...tab, params: tab.params ?? [] })),
+          };
+        }
 
         const { protocol, method, url, headers, body, auth, grpc } = persisted;
         return {
@@ -738,7 +796,14 @@ export const useRequestStore = create(
         // `activeTabId`, and a fresh install is exactly that case.
         const base = persisted ?? current;
 
-        const tabs = Array.isArray(base.tabs) && base.tabs.length ? base.tabs : current.tabs;
+        const tabs =
+          Array.isArray(base.tabs) && base.tabs.length
+            ? base.tabs.map((tab) => ({
+                ...tab,
+                params: tab.params ?? [],
+                graphql: { query: '', variables: '{}', ...tab.graphql },
+              }))
+            : current.tabs;
         // `activeTabId` must point at a tab that exists, or every read of the live
         // request would silently fall back to a tab the user is not looking at.
         const activeTabId = tabs.some((t) => t.id === base.activeTabId)

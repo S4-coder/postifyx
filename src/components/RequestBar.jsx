@@ -7,7 +7,7 @@ import {
   isStreaming,
 } from '@/lib/protocols';
 import { useRequestStore } from '@/store/useRequestStore';
-import { Code2, Share2 } from 'lucide-react';
+import { Code2, Save, Share2 } from 'lucide-react';
 
 /**
  * Method selector, URL field, and the send control.
@@ -26,6 +26,7 @@ export default function RequestBar({ activeSidePanel, onToggleSidePanel }) {
   const streamStatus = useRequestStore((s) => s.streamStatus);
   const setMethod = useRequestStore((s) => s.setMethod);
   const setUrl = useRequestStore((s) => s.setUrl);
+  const syncUrlParams = useRequestStore((s) => s.syncUrlParams);
   const execute = useRequestStore((s) => s.execute);
   const connectStream = useRequestStore((s) => s.connectStream);
   const disconnectStream = useRequestStore((s) => s.disconnectStream);
@@ -54,6 +55,7 @@ export default function RequestBar({ activeSidePanel, onToggleSidePanel }) {
       executeGrpc();
       return;
     }
+    syncUrlParams();
     execute();
   }
 
@@ -116,6 +118,7 @@ export default function RequestBar({ activeSidePanel, onToggleSidePanel }) {
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          onBlur={syncUrlParams}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
           spellCheck={false}
@@ -141,6 +144,7 @@ export default function RequestBar({ activeSidePanel, onToggleSidePanel }) {
 
         {/* Action Icons beside Send Button — each toggles the right sidebar */}
         <div className="flex items-center gap-1 bg-[#1a1a1a] p-1 border border-[#2a2a2a] rounded-md">
+          {sideIcon('save', 'Save request to collection', Save)}
           {sideIcon('share', 'Share Request', Share2)}
           {sideIcon('code', 'Generate Code Snippet', Code2)}
         </div>
